@@ -6,6 +6,7 @@
   [![MySQL](https://img.shields.io/badge/MySQL-Connector-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-GPLv3-green?style=for-the-badge)](LICENSE)
   [![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge)]()
+  [![Version](https://img.shields.io/badge/Version-1.0-cyan?style=for-the-badge&labelColor=000000&logo=verizon&logoColor=cyan)](https://github.com/Anish-Sethi-12122/py-dbms-cli/releases)
 
   <p align="center">
     <strong>A robust, aesthetic, and secure Command Line Interface for all your databases needs.</strong>
