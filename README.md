@@ -64,8 +64,8 @@ pip install py-dbms-cli
 ```
 
 ## 2. Run from cmd
-```bash
-py-dbms-cli
-```
+    ```bash
+    py-dbms-cli
+    ```
 
 ## 3. 
