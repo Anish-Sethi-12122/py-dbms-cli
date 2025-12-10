@@ -58,4 +58,4 @@ Ensure you have latest stable **Python** and a running instance of **MySQL Serve
 
 ### 1. Clone the Repository
 ```bash 
-git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli```
+git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli
