@@ -48,7 +48,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ### 🛡 Security
 * **Masked Input:** Uses `pwinput` to hide credentials during connection.
-* **~~Cryptography~~:** In future updates.
+* **End to End Encryption:** In future updates.
 * **Localhost Default:** optimized for local development environments.
 
 ---
@@ -60,4 +60,4 @@ Ensure you have latest stable **Python** and a running instance of **MySQL Serve
 
 ### 1. Clone the Repository
 ```bash 
-git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli
+git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli```
