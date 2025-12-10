@@ -69,4 +69,5 @@ pip install py-dbms-cli
 py-dbms-cli
 ```
 
-## 3. 
+## 3. That's it  
+<i>Can you believe it was that easy to use it !!</i>  
