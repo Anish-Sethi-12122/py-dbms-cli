@@ -27,7 +27,7 @@
 **PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter. A modern, secure, light-weight and the all-in-one DB client. Built on top of `mysql.connector` and powered by the ultimate UI/UX library `rich`, made secure by `pwinput`, it transforms raw SQL data into beautiful, readable tables.  
 PS this is better than your MySQL CLI ;)  
 
-Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, syntax highlighting, and helper meta-commands.
+Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, and an **easy-to-use experience** helper meta-commands.
 
 ---
 
