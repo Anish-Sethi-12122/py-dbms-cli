@@ -68,5 +68,10 @@ pip install py-dbms-cli
 py-dbms-cli
 ```
 
-## 3. That's it  
+## 3. Enter credentials (same as MySQL instance)  
+```bash
+Enter prompts for host, username and password for connection to `mysql`.
+```
+
+## 4. That's it  
 <i>Can you believe it was that easy to use it !!</i>  
