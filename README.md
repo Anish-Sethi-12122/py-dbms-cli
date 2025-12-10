@@ -22,7 +22,7 @@
 
 ---
 
-## ⚡ Introduction
+# ⚡ Introduction
 
 **PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter. A modern, secure, light-weight and the all-in-one DB client. Built on top of `mysql.connector` and powered by the ultimate UI/UX library `rich`, made secure by `pwinput`, it transforms raw SQL data into beautiful, readable tables.  
 PS this is better than your MySQL CLI ;)  
@@ -31,16 +31,16 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-### 🎨 Visual & UI
+## 🎨 Visual & UI
 * **Rich Terminal Interface:** Utilizes the `rich` library for colorful, formatted output.
 * **Typewriter Effects:** Smooth text rendering for a polished user experience.
 * **ASCII Branding:** Custom `pyfiglet` banner and dynamic dashboards.
 * **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
 * **Secure Terminal:** `pwinput` for masking password input, and state of the art ~~`cryptography`~~ (shhhhhhh.. no spoilers).
 
-### 🛠 Functional
+## 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
 * **Meta Commands:** Built-in shortcuts (like `.tables`, `.schema`) to save you time, and helper functions (like `.help`, `.version`) to get started.
 * **Execution Timer:** detailed execution time for every query which produces an output for performance monitoring.
@@ -53,16 +53,17 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ---
 
-## 📦 Installation
+# 📦 Installation
 
-### Prerequisites
+## Prerequisites
 Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
 
-### 1. Clone the Repository
+### 1. Run the following command to download from pip
 ```bash 
-git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli
+pip install py-dbms-cli
 ```
 
-# 1. Clone the Repository
+## 2. Run from cmd
 ```bash 
-git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli
+py-dbms-cli
+```
