@@ -36,9 +36,9 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 ### 🎨 Visual & UI
 * **Rich Terminal Interface:** Utilizes the `rich` library for colorful, formatted output.
 * **Typewriter Effects:** Smooth text rendering for a polished user experience.
-* **ASCII Branding:** Custom `pyfiglet` banners and dynamic dashboards.
+* **ASCII Branding:** Custom `pyfiglet` banner and dynamic dashboards.
 * **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
-* **Secure Terminal:** `cryptography` shhhhhhh.. no spoilers.
+* **Secure Terminal:** `pwinput` for masking password input, and state of the art `cryptography` shhhhhhh.. no spoilers.
 
 ### 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
