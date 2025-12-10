@@ -57,5 +57,5 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
 
 ### 1. Clone the Repository
-```bash```  
-```git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli```
+```bash 
+git clone https://github.com/Anish-Sethi-12122/py-dbms-cli.git cd py-dbms-cli```
