@@ -60,7 +60,6 @@ Ensure you have latest stable **Python** and a running instance of **MySQL Serve
 
 ### 1. Run the following command to download from pip
 >bash
-```bash
 pip install py-dbms-cli
 ```
 
