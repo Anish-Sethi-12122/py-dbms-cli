@@ -59,11 +59,11 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
 
 ### 1. Run the following command to download from pip
-```bash 
+```bash
 pip install py-dbms-cli
 ```
 
 ## 2. Run from cmd
-```bash 
+```bash
 py-dbms-cli
 ```
