@@ -36,7 +36,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 * **Typewriter Effects:** Smooth text rendering for a polished user experience.
 * **ASCII Branding:** Custom `pyfiglet` banners and dynamic dashboards.
 * **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
-* **Secure Terminal:** ``cryptography` shhhhhhh.. no spoilers.
+* **Secure Terminal:** `cryptography` shhhhhhh.. no spoilers.
 
 ### 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
