@@ -8,7 +8,7 @@
   [![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge)]()
 
   <p align="center">
-    <strong>A robust, aesthetic, and secure Command Line Interface for MySQL databases.</strong>
+    <strong>A robust, aesthetic, and secure Command Line Interface for all your databases needs.</strong>
   </p>
   
   <a href="#-features">Features</a> •
@@ -23,7 +23,7 @@
 
 ## ⚡ Introduction
 
-**PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter. Built on top of `mysql.connector` and powered by `rich`, it transforms raw SQL data into beautiful, readable tables. 
+**PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter. A modern, secure, light-weight and the all-in-one DB client. Built on top of `mysql.connector` and powered by `rich`, it transforms raw SQL data into beautiful, readable tables. 
 
 Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, syntax highlighting, and intuitive meta-commands.
 
@@ -32,10 +32,11 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 ## 🚀 Features
 
 ### 🎨 Visual & UI
-* **Rich Terminal Interface:** Utilizes the `Rich` library for colorful, formatted output.
+* **Rich Terminal Interface:** Utilizes the `rich` library for colorful, formatted output.
 * **Typewriter Effects:** Smooth text rendering for a polished user experience.
 * **ASCII Branding:** Custom `pyfiglet` banners and dynamic dashboards.
 * **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
+* **Secure Terminal:** ``cryptography` shhhhhhh.. no spoilers.
 
 ### 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
@@ -52,9 +53,9 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 ## 📦 Installation
 
 ### Prerequisites
-Ensure you have **Python 3.x** and a running instance of **MySQL Server**.
+Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
 
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/Anish-Sethi-12122/py-dbms-cli.git](https://github.com/Anish-Sethi-12122/py-dbms-cli.git)
-cd py-dbms-cli
+cd py-dbms-cli```
