@@ -100,3 +100,12 @@ Errors are printed in bold red colour for easier debugging:
 to make usage easier and faster.
 
 <img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-meta-image" alt="example-usage-1">
+
+---
+
+# 🗺 Roadmap
+We are constantly evolving! Below are some planned features for in-future updates for `pydbms`:  
+* **User Profile:** Implement `JSON` structured user-profiles, encrypted with python `cryptography` module.
+* **Multi-Engine Support:** Currently we support only `mysql`, but in future we plan to support multiple DBMS engines such as `oracle-db`, `mongo-db`, etc.
+* **Consistent Formatting across all DBMS:** Consistent `rich` UI themes across all DBMS.
+* **Session History Export:** Exporting session history in structured `JSON` format.
