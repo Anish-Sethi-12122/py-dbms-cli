@@ -114,7 +114,7 @@ We are constantly evolving! Below are some planned features for in-future update
 ---
 
 # 👨‍💻 Author
-<pre><i> <a href="https://linkedin.com/en/anish-sethi-dtu-cse/">Anish Sethi</a>      |      B.Tech Computer Science & Engineering      |      Delhi Technological University (Class of 2029)</i></pre>
+<pre><i> <a href="https://www.linkedin.com/in/anish-sethi-dtu-cse/">Anish Sethi</a>      |      B.Tech Computer Science & Engineering      |      Delhi Technological University (Class of 2029)</i></pre>
 
 ---
 
