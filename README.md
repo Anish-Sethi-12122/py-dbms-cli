@@ -9,7 +9,7 @@
   [![Version](https://img.shields.io/badge/Version-1.0-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
 
   <p align="center">
-    <strong>A robust, aesthetic, and secure Command Line Interface for all your databases needs.</strong>
+    <strong>A robust, aesthetic, modern and secure Command Line Interface for all your databases needs.</strong>
   </p>
   
   <a href="#-features">Features</a> •
