@@ -96,7 +96,7 @@ Errors are printed in bold red colour for easier debugging:
 <img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-1-image" alt="example-usage-1">
 
 ### 🕹 Meta Helper Commands
-`py-dbms-cli` includes a set of "dot commands" (also referred to as <i>Meta Commands</i> or <i>Meta Helper Commands</i> or <i>Meta Commands</i>)  
+`py-dbms-cli` includes a set of "dot commands" (also referred to as <i>Meta Commands</i> or <i>Meta Helper Commands</i> or <i>Helper Commands</i>)  
 to make usage easier and faster.
 
 <img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-meta-image" alt="example-usage-1">
