@@ -57,43 +57,24 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 ## Prerequisites
 Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
 
-### 1. Run the following command to download from pip
+## Run the following command to download from pip
 ```
 pip install py-dbms-cli
 ```
+
 This step also installs all dependencies**  
-
-## 2. Run from cmd
-```bash
-py-dbms-cli
-```
-
-## 3. Enter credentials (same as MySQL instance)  
-Enter prompts for host, username and password for connection to `mysql`.
-
-## 4. That's it  
-<i>Can you believe it was that easy to install !!</i>  
 
 ---
 
 # 🎮 Usage
 
-## Prerequisites
-Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
-
-### 1. Run the following command to download from pip
-```
-pip install py-dbms-cli
-```
-
-## 2. Run from cmd
+## 1. Run from cmd
 ```bash
 py-dbms-cli
 ```
 
-## 3. Enter credentials (same as MySQL instance)  
+## 2. Enter credentials (same as MySQL instance)  
 Enter prompts for host, username and password for connection to `mysql`.
 
-## 4. That's it  
-<i>Can you believe it was that easy to install !!</i>  
-
+## 3. All set
+You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).
