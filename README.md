@@ -89,4 +89,4 @@ You can write standard SQL queries. The tool supports multi-line input just like
 
 ### Error Handling    
 Errors are printed in bold red colour for easier debugging:  
-<img src="ttps://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-1-image" alt="example-usage-1">
+<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-1-image" alt="example-usage-1">
