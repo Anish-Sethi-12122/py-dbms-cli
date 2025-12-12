@@ -75,7 +75,7 @@ py-dbms-cli
 
 ## 2. Enter credentials (same as MySQL instance)  
 Enter prompts for host, username and password for connection to `mysql`.  
-NOTE: For security purpose, password entering is masked with *
+<i>**NOTE:** For security purpose, password entering is masked with *</i>
 
 ## 3. All set
 You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).
