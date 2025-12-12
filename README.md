@@ -73,9 +73,16 @@ This step also installs all dependencies**
 py-dbms-cli
 ```
 
+Upon entering the above command, you will see the dashboard panel, which prompts to login using `mysql` credentials  
+<img src="C:\Users\punnu\OneDrive\Pictures\Screenshots\Screenshot 2025-12-10 170019.png">
+
 ## 2. Enter credentials (same as MySQL instance)  
 Enter prompts for host, username and password for connection to `mysql`.  
 <i>**NOTE:** For security purpose, password entering is masked with *</i>
 
 ## 3. All set
 You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).
+
+### Querying  
+You can write standard SQL queries. The tool supports multi-line input:  
+
