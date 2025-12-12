@@ -74,7 +74,7 @@ py-dbms-cli
 ```
 
 Upon entering the above command, you will see the dashboard panel, which prompts to login using `mysql` credentials  
-<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/Welcome-Message-Image" alt="Dashboard">
+<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/Dashboard-Login-Image" alt="Dashboard">
 
 ## 2. Enter credentials (same as MySQL instance)  
 Enter prompts for host, username and password for connection to `mysql`.  
