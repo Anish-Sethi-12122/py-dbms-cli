@@ -114,12 +114,14 @@ We are constantly evolving! Below are some planned features for in-future update
 ---
 
 # 👨‍💻 Author
-<i><a href="https:linkedin.com/en/anish-sethi-dtu-cse/" target="_blank">Anish Sethi</a> B.Tech Computer Science & Engineering Delhi Technological University (Class of 2029)</i>
+<i> <a href="https:linkedin.com/en/anish-sethi-dtu-cse/">Anish Sethi</a> B.Tech Computer Science & Engineering | Delhi Technological University (Class of 2029)</i>
 
+---
 
+## 📄 License
+This project is licensed under the BSD 3-Clause License.
 
-
-
+See the <a href="">LICENSE<</a> file for more details.
 
 
 
