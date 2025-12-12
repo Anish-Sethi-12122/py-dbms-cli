@@ -121,7 +121,7 @@ We are constantly evolving! Below are some planned features for in-future update
 ## 📄 License
 This project is licensed under the BSD 3-Clause License.
 
-See the <a href="">LICENSE<</a> file for more details.
+See the <a href="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE">LICENSE<</a> file for more details.
 
 
 
