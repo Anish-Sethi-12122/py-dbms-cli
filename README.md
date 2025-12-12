@@ -109,3 +109,17 @@ We are constantly evolving! Below are some planned features for in-future update
 * **Multi-Engine Support:** Currently we support only `mysql`, but in future we plan to support multiple DBMS engines such as `oracle-db`, `mongo-db`, etc.
 * **Consistent Formatting across all DBMS:** Consistent `rich` UI themes across all DBMS.
 * **Session History Export:** Exporting session history in structured JSON format.
+* **UI Themes:** To utilize `rich` to make preset theme settings for `py-dbms`.
+
+---
+
+# 👨‍💻 Author
+<i><a href="https:linkedin.com/en/anish-sethi-dtu-cse/" target="_blank">Anish Sethi</a> B.Tech Computer Science & Engineering Delhi Technological University (Class of 2029)</i>
+
+
+
+
+
+
+
+
