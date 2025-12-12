@@ -43,17 +43,40 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 ## 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
 * **Meta Commands:** Built-in shortcuts (like `.tables`, `.schema`) to save you time, and helper functions (like `.help`, `.version`) to get started.
-* **Execution Timer:** detailed execution time for every query which produces an output for performance monitoring.
+* **Execution Timer:** Detailed execution time for every query which produces an output for performance monitoring.
 * **Robust Error Handling:** Catches MySQL errors gracefully without crashing the session.
 
 ### 🛡 Security
 * **Masked Input:** Uses `pwinput` to hide credentials during connection.
-* **End to End Encryption:** In future updates.
 * **Localhost Default:** optimized for local development environments.
 
 ---
 
 # 📦 Installation
+
+## Prerequisites
+Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
+
+### 1. Run the following command to download from pip
+```
+pip install py-dbms-cli
+```
+This step also installs all dependencies**  
+
+## 2. Run from cmd
+```bash
+py-dbms-cli
+```
+
+## 3. Enter credentials (same as MySQL instance)  
+Enter prompts for host, username and password for connection to `mysql`.
+
+## 4. That's it  
+<i>Can you believe it was that easy to install !!</i>  
+
+---
+
+# 🎮 Usage
 
 ## Prerequisites
 Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
@@ -72,4 +95,5 @@ py-dbms-cli
 Enter prompts for host, username and password for connection to `mysql`.
 
 ## 4. That's it  
-<i>Can you believe it was that easy to use it !!</i>  
+<i>Can you believe it was that easy to install !!</i>  
+
