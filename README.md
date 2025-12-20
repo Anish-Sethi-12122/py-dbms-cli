@@ -44,7 +44,7 @@ Version **2.0** is a major internal upgrade focused on correctness, structure, a
   - Cleaner filesystem usage and future-proof persistence
 - **Config System (v2 foundation)**
   - Introduces a persistent `config.json`
-  - Enables user-controlled behavior such as banner visibility (as a pre-release, not utilization in v2.0"
+  - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0"
 
 > ⚠️ **Note:** v2.0 is an experimental release. Behaviours may change in future versions.
 
