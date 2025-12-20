@@ -29,7 +29,24 @@ PS this is better than your MySQL CLI ;)
 
 Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, and an **easy-to-use experience** helper meta-commands.
 
-> **Note:** PY DBMS v2.0 is an experimental release. APIs and behavior may change in future versions.
+---
+
+## ✨ What’s New in v2.0
+
+Version **2.0** is a major internal upgrade focused on correctness, structure, and long-term scalability.
+
+### 🔧 Core Improvements
+- **Accurate Query Execution Feedback**
+  - Distinguishes between successful execution, warnings, and errors
+  - Removes misleading “no flags” messages from v1.0
+- **Centralized Runtime Directory**
+  - All pydbms-generated files now live in a dedicated OS-specific `pydbms/` directory
+  - Cleaner filesystem usage and future-proof persistence
+- **Config System (v2 foundation)**
+  - Introduces a persistent `config.json`
+  - Enables user-controlled behavior such as banner visibility (as a pre-release, not utilization in v2.0"
+
+> ⚠️ **Note:** v2.0 is an experimental release. Behaviours may change in future versions.
 
 ---
 
