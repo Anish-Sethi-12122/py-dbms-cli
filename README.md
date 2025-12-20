@@ -62,7 +62,7 @@ Version **2.0** is a major internal upgrade focused on correctness, structure, a
 ## 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
 * **Meta Commands:** Built-in shortcuts (like `.tables`, `.schema`) to save you time, and helper functions (like `.help`, `.version`) to get started.
-* **Execution Timer:** Detailed execution time for every query which produces an output for performance monitoring.
+* **Query Output Semantics:** Detailed execution time with status (success/warning/error) for every `sql` query.
 * **Robust Error Handling:** Catches MySQL errors gracefully without crashing the session.
 
 ### 🛡 Security
