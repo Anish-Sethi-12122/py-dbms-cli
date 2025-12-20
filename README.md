@@ -44,7 +44,7 @@ Version **2.0** is a major internal upgrade focused on correctness, structure, a
   - Cleaner filesystem usage and future-proof persistence
 - **Config System (v2 foundation)**
   - Introduces a persistent `config.json`
-  - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0"
+  - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0)
 
 > ⚠️ **Note:** v2.0 is an experimental release. Behaviours may change in future versions.
 
@@ -57,7 +57,7 @@ Version **2.0** is a major internal upgrade focused on correctness, structure, a
 * **Typewriter Effects:** Smooth text rendering for a polished user experience.
 * **ASCII Branding:** Custom `pyfiglet` banner and dynamic dashboards.
 * **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
-* **Secure Terminal:** `pwinput` for masking password input, and state of the art ~~`cryptography`~~ (shhhhhhh.. no spoilers).
+* **Secure Terminal:** `pwinput` for masking password input, and planned in-future update for encryption support.
 
 ## 🛠 Functional
 * **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
