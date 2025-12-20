@@ -29,6 +29,8 @@ PS this is better than your MySQL CLI ;)
 
 Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, and an **easy-to-use experience** helper meta-commands.
 
+> **Note:** PY DBMS v2.0 is an experimental release. APIs and behavior may change in future versions.
+
 ---
 
 # 🚀 Features
