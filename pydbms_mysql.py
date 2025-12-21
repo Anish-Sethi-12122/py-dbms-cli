@@ -30,11 +30,21 @@ def connect():
         sys.exit()
     return -1
 
+def print_warnings(cur):
+    warnings = cur.fetchwarnings()
+    if warnings:
+        for level, warning_code, warning_msg in warnings:
+            Print(f"Warning [{warning_code}]: {warning_msg}", "YELLOW", "bold")
+        console.print()
+        return True
+    return False
+
 def execute_select(query,cur):
     start = time.time()
     cur.execute(query)
     end = time.time()
     result=cur.fetchall()
+    num_rows=len(result)
     columns = [desc[0] for desc in cur.description]
     console.print()
     
@@ -63,19 +73,44 @@ def execute_select(query,cur):
             expand=False
         )
     )
+    
+    has_warning = print_warnings(cur)
+
+    if has_warning:
+        msg = f"Query completed with warnings in {end-start:.3f} sec. Returned {num_rows} rows"
+    else:
+        msg = f"Query executed in {end-start:.3f}sec. Returned {num_rows} rows"
+        
     console.print()
-    console.print(f"Query executed in {end-start:.3f}sec")
+    Print(msg, "YELLOW" if has_warning else "GREEN")
     console.print()
 
 def execute_change(query,con,cur):
     cur.execute(query)
-    Print("Query executed with no flags.", "GREEN")
-    console.print()
+    affected_row_num=cur.rowcount
     con.commit()
+    
+    has_warning=print_warnings(cur)
+    
+    if affected_row_num == 1:
+        msg = "1 row affected."
+    else:
+        msg = f"{affected_row_num} rows affected."
+
+    Print(msg, "YELLOW" if has_warning else "GREEN")
+    console.print()
 
 def execute(query,cur):
     cur.execute(query)
-    Print("Query executed with no flags.", "GREEN")
+    
+    has_warning=print_warnings(cur)
+    
+    if has_warning:
+        msg = "Query executed with warning."
+    else:
+        msg = "Query executed."
+    
+    Print(msg, "YELLOW" if has_warning else "GREEN")
     console.print()
     
 def get_query_mysql():
