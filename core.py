@@ -2,11 +2,14 @@
 PY DBMS — DB client CLI
 Copyright (C) 2025  Anish Sethi
 Licensed under - BSD-3-Clause License
+Version - 2.0
+Release - Experimental
 '''
 
 from .Global import Print, console
-from .dependencies import pyfiglet, Text, Table, Align, Rule, Panel, mysql, sys
+from .dependencies import pyfiglet, Text, Table, Align, Rule, Panel, mysql, sys, os
 from .pydbms_mysql import execute, execute_change, execute_select, connect, get_query_mysql
+from .config import load_config
 
 def print_banner():
     ascii_art = pyfiglet.figlet_format("PY   DBMS", font="slant").rstrip()
@@ -19,7 +22,7 @@ def print_banner():
     stats_table.add_column("3", justify="center", ratio=1)
 
     stats_table.add_row(
-        "[bold cyan]v1.0[/]\n [bold white]Version[/]",
+        "[bold cyan]v2.0[/]\n [bold white]Version[/]",
         "[bold yellow]MySQL[/]\n[bold white]Currently Supported[/]", 
         "[bold green]Online since 2025[/]\n[bold white]Status[/]"
     )
@@ -123,8 +126,8 @@ def meta(cmd, cur):
         info.add_column("", style="dim white")
 
         info.add_row("Name", "[link=https://github.com/Anish-Sethi-12122/py-dbms-cli]pydbms Terminal[/link]")
-        info.add_row("Version", "v1.0")
-        info.add_row("Build", "Stable Release")
+        info.add_row("Version", "v2.0")
+        info.add_row("Build", "Experimental Release")
         info.add_row("Python", f"[link=https://www.python.org/]{sys.version.split()[0]}[/link]")
         info.add_row("Author", "[link=https://www.linkedin.com/in/anish-sethi-dtu-cse/]Anish Sethi[/link]")
         info.add_row("Institution", "B.Tech Computer Science and Engineering @ Delhi Technological University")
@@ -139,6 +142,7 @@ def meta(cmd, cur):
             )
         )
         console.print()
+        console.print("Run `pip install -U py-dbms-cli` in terminal to check for updates.",style="dim white")
         return
 
     # .exit
@@ -147,10 +151,13 @@ def meta(cmd, cur):
         sys.exit()
 
     print(f"Unknown command: {cmd}\nCheck your manual that corresponds to helper commands.")
-
+             
 def main():
-    print_banner()
-    con,cur=connect()
+    config = load_config()
+    if config.get("show_banner", True):
+        print_banner()
+        
+    con, cur = connect()
     
     Print("Welcome to PY DBMS. If you are unsure where to start, here are some helper commands.", "YELLOW")
     print("\n\n")
