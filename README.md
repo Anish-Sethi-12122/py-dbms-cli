@@ -11,7 +11,8 @@
   <p align="center">
     <strong>A robust, aesthetic, modern and secure Command Line Interface for all your databases needs.</strong>
   </p>
-  
+
+  <a href="#-what's new">What's New</a>
   <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-usage">Usage</a> •
