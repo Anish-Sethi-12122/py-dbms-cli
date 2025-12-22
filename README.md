@@ -31,7 +31,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ---
 
-## ✨ What’s New in v2.1.2
+## ✨ What’s New in v2.1.5
 
 > Version **2.1.5** is a stable-release for the experimental version 2.0.0.  
 > NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
