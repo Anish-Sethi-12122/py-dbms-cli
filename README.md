@@ -31,22 +31,24 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ---
 
-## ✨ What’s New in v2.0
+## ✨ What’s New in v2.1.0
 
-Version **2.0** is a major internal upgrade focused on correctness, structure, and long-term scalability.
+Version **21..0** is a stable-release for the experimental version 2.0.
 
-### 🔧 Core Improvements
-- **Accurate Query Execution Feedback**
-  - Distinguishes between successful execution, warnings, and errors
-  - Removes misleading “no flags” messages from v1.0
-- **Centralized Runtime Directory**
-  - All pydbms-generated files now live in a dedicated OS-specific `pydbms/` directory
-  - Cleaner filesystem usage and future-proof persistence
-- **Config System (v2 foundation)**
-  - Introduces a persistent `config.json`
-  - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0)
+### 🔧 Core Fixes
+**Complete JSON Configuration System**
+  - Fully implemented persistent `config.json`, stored in the OS-appropriate `pydbms/` directory on first run.
+  - Configuration now persists across sessions and restores automatically if missing or corrupted.
+  - Introduced a structured, nested configuration layout for:
+    - UI settings (e.g., banner visibility)
+    - MySQL connection settings
+  - Added interactive inspection of configuration via the `.config` meta-command.
+  - Startup banner behavior is now fully controlled through configuration.
 
-> ⚠️ **Note:** v2.0 is an experimental release. Behaviours may change in future versions.
+  **Interactive Configuration Management**
+  - Added `.config set <section.key> <value>` for modifying configuration values at runtime.
+  - Added `.config reset <section.key>` to restore individual settings to their default values.
+  - Configuration changes are validated and written to disk immediately.
 
 ---
 
