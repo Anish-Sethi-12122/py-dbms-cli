@@ -56,7 +56,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
     - Configuration changes are validated and written to disk immediately.
   
   > ⚠️ **Warning:** Users are not advised to edit config.json manually as it may cause validation errors and resets to default.
-</details
+</details>
 
 ---
 
