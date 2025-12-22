@@ -11,7 +11,8 @@
   - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0)
 
 ## v2.1.1 - Stable Release
-> NOTE: v2.1.0 had a bug while uploading to PyPI, hence v2.1.1 has been taken for stable release.
+> NOTE: v2.1.0 had a bug while uploading to PyPI, hence v2.1.1 has been taken for stable release.  
+
   **Complete JSON Configuration System**
   - Fully implemented persistent `config.json`, stored in the OS-appropriate `pydbms/` directory on first run.
   - Configuration now persists across sessions and restores automatically if missing or corrupted.
