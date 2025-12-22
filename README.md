@@ -6,7 +6,7 @@
   [![MySQL](https://img.shields.io/badge/MySQL-Connector-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
   [![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge)]()
-  [![Version](https://img.shields.io/badge/Version-2.1.2-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
+  [![Version](https://img.shields.io/badge/Version-2.1.5-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
 
   <p align="center">
     <strong>A robust, aesthetic, modern and secure Command Line Interface for all your databases needs.</strong>
@@ -33,8 +33,8 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ## ✨ What’s New in v2.1.2
 
-> Version **2.1.2** is a stable-release for the experimental version 2.0.0.  
-> NOTE: v2.1.0 had a bug while uploading to PyPI, hence v2.1.2 has been taken for stable release.
+> Version **2.1.5** is a stable-release for the experimental version 2.0.0.  
+> NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
 
 ### 🔧 Core Fixes
 **Complete JSON Configuration System**
