@@ -32,31 +32,26 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ---
 
-<details open>
-  ## ✨ What’s New in v2.1.5
+## ✨ What’s New in v2.1.5
+> Version **2.1.5** is a stable-release for the experimental version 2.0.0.  
+> NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
   
-  <summary><strong>v2.1.5 — Stable Release</strong></summary>
+### 🔧 Core Fixes
+**Complete JSON Configuration System**
+  - Fully implemented persistent `config.json`, stored in the OS-appropriate `pydbms/` directory on first run.
+  - Configuration now persists across sessions and restores automatically if missing or corrupted.
+  - Introduced a structured, nested configuration layout for:
+    - UI settings (e.g., banner visibility)
+    - MySQL connection settings
+  - Added interactive inspection of configuration via the `.config` meta-command.
+  - Startup banner behavior is now fully controlled through configuration.
   
-  > Version **2.1.5** is a stable-release for the experimental version 2.0.0.  
-  > NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
+**Interactive Configuration Management**
+  - Added `.config set <section>.<key> <value>` for modifying configuration values at runtime.
+  - Added `.config reset <section>.<key>` to restore individual settings to their default values.
+  - Configuration changes are validated and written to disk immediately.
   
-  ### 🔧 Core Fixes
-  **Complete JSON Configuration System**
-    - Fully implemented persistent `config.json`, stored in the OS-appropriate `pydbms/` directory on first run.
-    - Configuration now persists across sessions and restores automatically if missing or corrupted.
-    - Introduced a structured, nested configuration layout for:
-      - UI settings (e.g., banner visibility)
-      - MySQL connection settings
-    - Added interactive inspection of configuration via the `.config` meta-command.
-    - Startup banner behavior is now fully controlled through configuration.
-  
-    **Interactive Configuration Management**
-    - Added `.config set <section>.<key> <value>` for modifying configuration values at runtime.
-    - Added `.config reset <section>.<key>` to restore individual settings to their default values.
-    - Configuration changes are validated and written to disk immediately.
-  
-  > ⚠️ **Warning:** Users are not advised to edit config.json manually as it may cause validation errors and resets to default.
-</details>
+> ⚠️ **Warning:** Users are not advised to edit config.json manually as it may cause validation errors and resets to default.
 
 ---
 
