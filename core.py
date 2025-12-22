@@ -2,7 +2,7 @@
 PY DBMS — DB client CLI
 Copyright (C) 2025  Anish Sethi
 Licensed under - BSD-3-Clause License
-Version - 2.1.5 #NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
+Version - 2.1.5 #NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming v2.1.5 has been taken for stable release.
 Release - Stable
 '''
 
