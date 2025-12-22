@@ -33,7 +33,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 
 ## ✨ What’s New in v2.1.0
 
-Version **21..0** is a stable-release for the experimental version 2.0.
+| Version **2.1.0** is a stable-release for the experimental version 2.0.
 
 ### 🔧 Core Fixes
 **Complete JSON Configuration System**
