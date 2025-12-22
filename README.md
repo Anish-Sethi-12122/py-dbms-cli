@@ -50,6 +50,8 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
   - Added `.config reset <section>.<key>` to restore individual settings to their default values.
   - Configuration changes are validated and written to disk immediately.
 
+> ⚠️ **Warning:** Users are not advised to edit config.json manually as it may cause validation errors and resets to default.
+
 ---
 
 # 🚀 Features
