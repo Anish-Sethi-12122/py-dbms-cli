@@ -2,7 +2,7 @@
 PY DBMS — DB client CLI
 Copyright (C) 2025  Anish Sethi
 Licensed under - BSD-3-Clause License
-Version - 2.1.1 #NOTE: v2.1.0 had a bug while uploading to PyPI, hence v2.1.1 has been taken for stable release.
+Version - 2.1.2 #NOTE: v2.1.0 had a bug while uploading to PyPI, hence v2.1.1 has been taken for stable release.
 Release - Stable
 '''
 
@@ -22,7 +22,7 @@ def print_banner() -> None:
     stats_table.add_column("3", justify="center", ratio=1)
 
     stats_table.add_row(
-        "[bold cyan]v2.1.1[/]\n[bold white]Version[/]",
+        "[bold cyan]v2.1.2[/]\n [bold white]Version[/]",
         "[bold yellow]MySQL[/]\n[bold white]Currently Supported[/]", 
         "[bold green]Online since 2025[/]\n[bold white]Status[/]"
     )
@@ -138,7 +138,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
         info.add_column("", style="dim white")
 
         info.add_row("Name", "[link=https://github.com/Anish-Sethi-12122/py-dbms-cli]pydbms Terminal[/link]")
-        info.add_row("Version", "v2.1.1")
+        info.add_row("Version", "v2.1.2")
         info.add_row("Build", "Stable Release")
         info.add_row("Python", f"[link=https://www.python.org/]{sys.version.split()[0]}[/link]")
         info.add_row("MySQL", f"[link=https://www.mysql.com/]{con.get_server_info()}[/link]")
@@ -193,6 +193,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         if len(parts) != 4:
             Print("Usage: .config set <section>.<key> <value>", "YELLOW")
+            console.print()
             return
 
         _, _, path, raw_value = parts
@@ -201,12 +202,16 @@ def meta(cmd: str, cur: object, con=None) -> None:
         
         if not parsed:
             Print("Invalid input format. Use <section>.<key>", "RED")
+            console.print()
             return
 
         section, key = parsed
+        section=section.lower()
+        key=key.lower()
         
         if section not in config or key not in config[section]:
             Print(f"Unknown config key: {path}", "RED")
+            console.print()
             return
 
         value = coerce_value_config(raw_value)
@@ -214,6 +219,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
         save_config(config)
 
         Print(f"Updated {path} → {value}", "GREEN")
+        console.print()
         return
 
     # .config reset or .config -d or .config --default
@@ -222,6 +228,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         if len(parts) != 3:
             Print("Usage: .config reset <section>.<key>", "YELLOW")
+            console.print()
             return
 
         path = parts[2]
@@ -229,27 +236,34 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         if not parsed:
             Print("Invalid config key format. Use <section>.<key>", "RED")
+            console.print()
             return
 
         section, key = parsed
+        section=section.lower()
+        key=key.lower()
         default = get_default_value_config(section, key)
 
         if default is None:
             Print(f"No default value for {path}.", "RED")
+            console.print()
             return
 
         config[section][key] = default
         save_config(config)
 
         Print(f"Reset {path} → {default}", "GREEN")
+        console.print()
         return
 
     # .exit
     if cmd == ".exit":
         Print("Session Terminated.", "RED", "bold")
+        console.print()
         sys.exit()
 
     Print(f"Unknown command: {cmd}\nRefer to `.help` for list of commands", "YELLOW")
+    console.print()
 
 def main():
     global config
@@ -260,7 +274,8 @@ def main():
     con, cur = connect()
     
     Print("Welcome to PY DBMS. If you are unsure where to start, here are some helper commands.", "YELLOW")
-    print("\n\n")
+    console.print()
+    console.print()
     meta(".help",cur)
     
     while True:
