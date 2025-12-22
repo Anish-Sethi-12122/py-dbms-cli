@@ -68,6 +68,7 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
 * **Meta Commands:** Built-in shortcuts (like `.tables`, `.schema`) to save you time, and helper functions (like `.help`, `.version`) to get started.
 * **Query Output Semantics:** Detailed execution time with status (success/warning/error) for every `sql` query.
 * **Robust Error Handling:** Catches MySQL errors gracefully without crashing the session.
+* **Global config:** `pydbms` utilizes JSON to maintain a global config file that saves user profiles (in future-updates), database connection credentials and UI essentials.
 
 ### 🛡 Security
 * **Masked Input:** Uses `pwinput` to hide credentials during connection.
