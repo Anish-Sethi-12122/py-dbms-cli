@@ -46,8 +46,8 @@ Whether you are managing backend logic, debugging queries, or just exploring sch
   - Startup banner behavior is now fully controlled through configuration.
 
   **Interactive Configuration Management**
-  - Added `.config set <section.key> <value>` for modifying configuration values at runtime.
-  - Added `.config reset <section.key>` to restore individual settings to their default values.
+  - Added `.config set <section>.<key> <value>` for modifying configuration values at runtime.
+  - Added `.config reset <section>.<key>` to restore individual settings to their default values.
   - Configuration changes are validated and written to disk immediately.
 
 ---
