@@ -33,7 +33,7 @@ It is a **modern, secure, lightweight, all-in-one DBMS CLI** built on top of `my
 
 It transforms raw SQL output into **clean, readable tables**, while providing a structured and predictable runtime experience.
 
-> PS: Yes, this *is* better than the default MySQL CLI 😉
+> PS: Yes, this *is* better than MySQL CLI 😉
 
 ---
 
