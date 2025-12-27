@@ -2,6 +2,7 @@
 
 from .dependencies import mysql, pwinput, sys, time, sqlparse, Panel, Table, re, box
 from .Global import Print, console, config
+from .config import SESSION_CONFIG
 
 def connect() -> tuple[object,object] | int:
     try:
@@ -40,10 +41,15 @@ def print_warnings(cur: object) -> bool:
     return False
 
 def execute_select(query: str,cur: object) -> None:
-    start = time.time()
+    start = time.perf_counter()
     cur.execute(query)
-    end = time.time()
-    result=cur.fetchall()
+    end = time.perf_counter()
+    
+    if config["ui"]["max_rows"] is None:
+        result=cur.fetchall()
+    else:
+        result=cur.fetchmany(config["ui"]["max_rows"])
+        
     num_rows=len(result)
     columns = [desc[0] for desc in cur.description]
     console.print()
@@ -51,7 +57,7 @@ def execute_select(query: str,cur: object) -> None:
     result_table = Table(show_header=True, box=box.SIMPLE_HEAVY, padding=(0,1))
     
     for i in columns:
-        result_table.add_column(i, style="white", no_wrap=True)
+        result_table.add_column(i, style="white", overflow=SESSION_CONFIG["wrap_line_dict"].get(SESSION_CONFIG["wrap_line"]))
 
     for row in result:
         row_row = []
