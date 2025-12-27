@@ -1,18 +1,20 @@
 <div align="center">
 
-  <div align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ffff,100:8a2be2&height=200&section=header&text=PY%20DBMS&fontSize=80&fontAlign=50&fontAlignY=35&desc=The%20Modern,%20Secure,%20all-in-one%20DBMS%20Client&descAlign=50&descAlignY=55&animation=fadeIn&fontFace=Fira+Code" alt="PY DBMS Banner" width="100%"/> </div>
-  
+  <div align="center">
+    <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ffff,100:8a2be2&height=200&section=header&text=PY%20DBMS&fontSize=80&fontAlign=50&fontAlignY=35&desc=The%20Modern,%20Secure,%20all-in-one%20DBMS%20Client&descAlign=50&descAlignY=55&animation=fadeIn&fontFace=Fira+Code" alt="PY DBMS Banner" width="100%"/>
+  </div>
+
   [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
   [![MySQL](https://img.shields.io/badge/MySQL-Connector-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
   [![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge)]()
-  [![Version](https://img.shields.io/badge/Version-2.1.5-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
+  [![Version](https://img.shields.io/badge/Version-2.5.0-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
 
   <p align="center">
-    <strong>A robust, aesthetic, modern and secure Command Line Interface for all your databases needs.</strong>
+    <strong>A robust, aesthetic, modern, and secure Command Line Interface for database management.</strong>
   </p>
 
- <a href="#-whats-new-in-v215">What's New</a> •
+  <a href="#-whats-new-in-v250">What's New</a> •
   <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-usage">Usage</a> •
@@ -25,62 +27,91 @@
 
 # ⚡ Introduction
 
-**PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter. A modern, secure, light-weight and the all-in-one DB client. Built on top of `mysql.connector` and powered by the ultimate UI/UX library `rich`, made secure by `pwinput`, it transforms raw SQL data into beautiful, readable tables.  
-PS this is better than your MySQL CLI ;)  
+**PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter.
 
-Whether you are managing backend logic, debugging queries, or just exploring schemas, PY DBMS offers a **secure environment** with password masking, and an **easy-to-use experience** helper meta-commands.
+It is a **modern, secure, lightweight, all-in-one DBMS CLI** built on top of `mysql.connector`, powered by the `rich` UI library, and secured using `pwinput`.
+
+It transforms raw SQL output into **clean, readable tables**, while providing a structured and predictable runtime experience.
+
+> PS: Yes, this *is* better than the default MySQL CLI 😉
 
 ---
 
-## ✨ What’s New in v2.1.5
-> Version **2.1.5** is a stable-release for the experimental version 2.0.0.  
-> NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.
-  
-### 🔧 Core Fixes
-**Complete JSON Configuration System**
-  - Fully implemented persistent `config.json`, stored in the OS-appropriate `pydbms/` directory on first run.
-  - Configuration now persists across sessions and restores automatically if missing or corrupted.
-  - Introduced a structured, nested configuration layout for:
-    - UI settings (e.g., banner visibility)
-    - MySQL connection settings
-  - Added interactive inspection of configuration via the `.config` meta-command.
-  - Startup banner behavior is now fully controlled through configuration.
-  
-**Interactive Configuration Management**
-  - Added `.config set <section>.<key> <value>` for modifying configuration values at runtime.
-  - Added `.config reset <section>.<key>` to restore individual settings to their default values.
-  - Configuration changes are validated and written to disk immediately.
-  
-> ⚠️ **Warning:** Users are not advised to edit config.json manually as it may cause validation errors and resets to default.
+## ✨ What’s New in v2.5.0
+> **v2.5.0** is a stable release built on the v2.x architecture, focused on configurability, UX clarity, and runtime control.
+
+### 🔧 Session-Level Configuration (NEW)
+A **non-persistent configuration layer** that allows runtime behavior changes without modifying `config.json`.
+
+- Inspect active session settings using `.session-config`
+- Modify session behavior using `.session-config set <key> <value>`
+- Reset session settings using `.session-config reset <key>`
+- Session configuration resets automatically on every new run
+
+This ensures a **clean startup state** while enabling flexible experimentation.
+
+---
+
+### 🔍 Inline Query Output Control
+- Added the `--expand` helper flag for **per-query column expansion**
+- Designed to be explicit and non-invasive
+- Does not mutate session or persistent configuration
+
+---
+
+### 🧭 Improved CLI Discoverability
+- `.help` output now clearly separates:
+  - Meta commands
+  - Helper flags
+- Refined help table layout for readability and future extensibility
+
+---
+
+### 🛡 Configuration Reliability Improvements
+Strict separation between:
+- Persistent configuration (`config.json`)
+- Session-level configuration
+- Query-level overrides
+
+Includes hardened validation and automatic recovery from invalid or corrupted values.
+
+---
+
+### 🎨 UI & UX Refinements
+- Unified visual theming across panels, tables, and help output
+- Improved consistency while maintaining minimalism
 
 ---
 
 # 🚀 Features
 
 ## 🎨 Visual & UI
-* **Rich Terminal Interface:** Utilizes the `rich` library for colorful, formatted output.
-* **Typewriter Effects:** Smooth text rendering for a polished user experience.
-* **ASCII Branding:** Custom `pyfiglet` banner and dynamic dashboards.
-* **Tabular Data:** Clean grid layouts for SQL results using `tabulate`.
-* **Secure Terminal:** `pwinput` for masking password input, and planned in-future update for encryption support.
+- **Rich Terminal Interface:** Colorful, formatted output using `rich`
+- **Clean Tables:** SQL results rendered in readable grid layouts
+- **Unified Theming:** Consistent visuals across commands and output
+- **Minimal & Focused UI:** Designed for long-running CLI sessions
 
 ## 🛠 Functional
-* **Smart SQL Parsing:** Supports multi-line queries (reads until `;` is detected).
-* **Meta Commands:** Built-in shortcuts (like `.tables`, `.schema`) to save you time, and helper functions (like `.help`, `.version`) to get started.
-* **Query Output Semantics:** Detailed execution time with status (success/warning/error) for every `sql` query.
-* **Robust Error Handling:** Catches MySQL errors gracefully without crashing the session.
-* **Global config:** `pydbms` utilizes JSON to maintain a global config file that saves user profiles (in future-updates), database connection credentials and UI essentials.
+- **Smart SQL Parsing:** Supports multi-line queries (terminated by `;`)
+- **Meta Commands:** Built-in helpers like `.tables`, `.schema`, `.help`, `.version`
+- **Query Semantics:** Execution status (success / warning / error) with timing
+- **Robust Error Handling:** Graceful MySQL error handling without crashing sessions
+- **Configuration Layers:**
+  - Persistent (`config.json`)
+  - Session-level (`.session-config`)
+  - Query-level flags (`--expand`, etc.)
 
-### 🛡 Security
-* **Masked Input:** Uses `pwinput` to hide credentials during connection.
-* **Localhost Default:** optimized for local development environments.
+## 🛡 Security
+- **Masked Input:** Passwords hidden using `pwinput`
+- **Localhost-first:** Optimized for local development environments
 
 ---
 
 # 📦 Installation
 
 ## Prerequisites
-Ensure you have latest stable **Python** and a running instance of **MySQL Server** installed.
+- Python **3.10+**
+- A running **MySQL Server** instance
 
 ## Run the following command to download from pip
 ```
