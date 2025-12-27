@@ -161,10 +161,10 @@ to make usage easier and faster.
 
 # 🗺 Roadmap
 We are constantly evolving! Below are some planned features for in-future updates for `pydbms`:  
-* **User Profile:** Implement JSON structured user-profiles, encrypted with python `cryptography` module.
+* **User Profile:** Implement JSON structured user-profiles, for a local PY DBMS account, which enables a user to access multiple DBMS with user specific preferences/themes/etc.
 * **Multi-Engine Support:** Currently we support only `mysql`, but in future we plan to support multiple DBMS engines such as `oracle-db`, `mongo-db`, etc.
 * **Consistent Formatting across all DBMS:** Consistent `rich` UI themes across all DBMS.
-* **Session History Export:** Exporting session history in structured JSON format.
+* **Session History Export:** Exporting session history in structured JSON & CSV format.
 * **UI Themes:** To utilize `rich` to make preset theme settings for `py-dbms`.
 
 ---
