@@ -1,6 +1,6 @@
 #Global functions and variables used across all/major files
 
-from .dependencies import Console, time, sys, os
+from .dependencies import Console, time
 from .config import load_config
 
 console=Console()
@@ -24,17 +24,3 @@ def Print(message: str, color_key="WHITE", style="", type=True) -> None:
         console.print(char, style=f"{style} {color}", end="")
         time.sleep(delay)
         
-def pydbms_dir() -> str:
-    if sys.platform.startswith("win"):
-        base = os.getenv("APPDATA")
-    elif sys.platform == "darwin":
-        base = os.path.expanduser("~/Library/Application Support")
-    else:
-        base = os.path.expanduser("~/.local/share")
-
-    path = os.path.join(base, "pydbms")
-    os.makedirs(path, exist_ok=True)
-    return path
-
-def pydbms_path(*parts) -> str:
-    return os.path.join(pydbms_dir(), *parts)
