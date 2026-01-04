@@ -47,7 +47,7 @@ We have decoupled the connection logic from the CLI core. This allows for:
 A new foundation for data portability:
 - **Dedicated Export Manager:** Centralized handling of output formats.
 - **CSV Support:** Initial implementation of direct-to-CSV exporting.
-- **Non-Fatal Resilience:** Export failures or missing directories no longer crash your active SQL session.
+- **Non-Fatal Resilience:** Export failures or missing directories do not crash the active DB session.
 
 ### 🧱 Internal Result Abstraction
 Introduced a structured result model that separates query execution from representation. This is the cornerstone for upcoming features like JSON exports and unified theming.
