@@ -7,14 +7,14 @@
   [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
   [![MySQL](https://img.shields.io/badge/MySQL-Connector-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
-  [![Status](https://img.shields.io/badge/Status-Stable-brightgreen?style=for-the-badge)]()
-  [![Version](https://img.shields.io/badge/Version-2.5.0-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
+  [![Status](https://img.shields.io/badge/Status-Experimental-yellow?style=for-the-badge)]()
+  [![Version](https://img.shields.io/badge/Version-3.0.0-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
 
   <p align="center">
     <strong>A robust, aesthetic, modern, and secure Command Line Interface for database management.</strong>
   </p>
 
-  <a href="#-whats-new-in-v250">What's New</a> •
+  <a href="#-whats-new-in-v300">What's New</a> •
   <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-usage">Usage</a> •
@@ -29,81 +29,49 @@
 
 **PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter.
 
-It is a **modern, secure, lightweight, all-in-one DBMS CLI** built on top of `mysql.connector`, powered by the `rich` UI library, and secured using `pwinput`.
-
-It transforms raw SQL output into **clean, readable tables**, while providing a structured and predictable runtime experience.
+It is a **modern, secure, lightweight, all-in-one DBMS CLI** built with a modular architecture. It transforms raw SQL output into **clean, readable tables** via the `rich` UI library, while ensuring security through masked `pwinput` prompts.
 
 > PS: Yes, this *is* better than MySQL CLI 😉
 
 ---
 
-## ✨ What’s New in v2.5.0
-> **v2.5.0** is a stable release built on the v2.x architecture, focused on configurability, UX clarity, and runtime control.
+## ✨ What’s New in v3.0.0
+> **v3.0.0** is a major experimental release focusing on internal architecture modernization and long-term extensibility.
 
-### 🔧 Session-Level Configuration (NEW)
-A **non-persistent configuration layer** that allows runtime behavior changes without modifying `config.json`.
+### 🏗️ Modular DB Connector Architecture (NEW)
+We have decoupled the connection logic from the CLI core. This allows for:
+- **Future Multi-Engine Support:** Ready-to-implement connectors for PostgreSQL, SQLite, etc.
+- **Common Interface:** Standardized execution logic across different database types.
 
-- Inspect active session settings using `.session-config`
-- Modify session behavior using `.session-config set <key> <value>`
-- Reset session settings using `.session-config reset <key>`
-- Session configuration resets automatically on every new run
+### 📤 Pluggable Query Export System
+A new foundation for data portability:
+- **Dedicated Export Manager:** Centralized handling of output formats.
+- **CSV Support:** Initial implementation of direct-to-CSV exporting.
+- **Non-Fatal Resilience:** Export failures or missing directories no longer crash your active SQL session.
 
-This ensures a **clean startup state** while enabling flexible experimentation.
-
----
-
-### 🔍 Inline Query Output Control
-- Added the `--expand` helper flag for **per-query column expansion**
-- Designed to be explicit and non-invasive
-- Does not mutate session or persistent configuration
-
----
-
-### 🧭 Improved CLI Discoverability
-- `.help` output now clearly separates:
-  - Meta commands
-  - Helper flags
-- Refined help table layout for readability and future extensibility
-
----
-
-### 🛡 Configuration Reliability Improvements
-Strict separation between:
-- Persistent configuration (`config.json`)
-- Session-level configuration
-- Query-level overrides
-
-Includes hardened validation and automatic recovery from invalid or corrupted values.
-
----
-
-### 🎨 UI & UX Refinements
-- Unified visual theming across panels, tables, and help output
-- Improved consistency while maintaining minimalism
+### 🧱 Internal Result Abstraction
+Introduced a structured result model that separates query execution from representation. This is the cornerstone for upcoming features like JSON exports and unified theming.
 
 ---
 
 # 🚀 Features
 
 ## 🎨 Visual & UI
-- **Rich Terminal Interface:** Colorful, formatted output using `rich`
-- **Clean Tables:** SQL results rendered in readable grid layouts
-- **Unified Theming:** Consistent visuals across commands and output
-- **Minimal & Focused UI:** Designed for long-running CLI sessions
+- **Rich Terminal Interface:** High-fidelity, colorful output using `rich`.
+- **Clean Tables:** SQL results rendered in structured, readable grid layouts.
+- **Typewriter Status:** Aesthetic, real-time status updates for a premium CLI feel.
 
 ## 🛠 Functional
-- **Smart SQL Parsing:** Supports multi-line queries (terminated by `;`)
-- **Meta Commands:** Built-in helpers like `.tables`, `.schema`, `.help`, `.version`
-- **Query Semantics:** Execution status (success / warning / error) with timing
-- **Robust Error Handling:** Graceful MySQL error handling without crashing sessions
-- **Configuration Layers:**
-  - Persistent (`config.json`)
-  - Session-level (`.session-config`)
-  - Query-level flags (`--expand`, etc.)
+- **Modular Design:** Built to scale beyond MySQL into a universal database tool.
+- **Smart SQL Parsing:** Supports multi-line queries (terminated by `;`).
+- **Meta Commands:** Dot-helpers like `.tables`, `.schema`, `.export <format>`, and `.config`.
+- **Configuration Layers:** - **Persistent:** `config.json` for long-term preferences.
+  - **Session-level:** `.session-config` for runtime experimentation.
+  - **Query-level:** Inline flags like `--expand`.
 
 ## 🛡 Security
-- **Masked Input:** Passwords hidden using `pwinput`
-- **Localhost-first:** Optimized for local development environments
+- **Masked Input:** Credentials are never echoed to the screen.
+- **Zero-Persistence Policy:** Sensitive passwords are never saved in config files.
 
 ---
 
@@ -113,8 +81,8 @@ Includes hardened validation and automatic recovery from invalid or corrupted va
 - Python **3.10+**
 - A running **MySQL Server** instance
 
-## Run the following command to download from pip
-```
+## Run the following command to download from PyPI:
+```bash
 pip install py-dbms-cli
 ```
 
@@ -137,9 +105,9 @@ You’ll be greeted with an interactive dashboard prompting MySQL credentials.
 ><i>**NOTE:** Password input is masked for security</i>
 
 ## 3. All set
-You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).
+You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).  
 
----
+<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-2-image" alt="example-usage-2">
 
 ### Querying
 You can write standard SQL queries. The tool supports multi-line input just like `mysql-cli`:  
@@ -153,7 +121,18 @@ Errors are printed in bold red colour for easier debugging:
 
 ### 🕹 Meta Helper Commands
 `py-dbms-cli` includes a set of "dot commands" (also referred to as <i>Meta Commands</i> or <i>Meta Helper Commands</i> or <i>Helper Commands</i>)  
-to make usage easier and faster.
+to make usage easier and faster.  
+
+### **NEW** 🚩 Meta Flags (Query Overrides)
+
+Unlike Meta Commands, **Meta Flags** are appended directly to the end of your SQL queries. They allow you to override display settings or execution behavior for a single statement without changing your global configuration.
+
+> **Usage Syntax:** `<query> --<flag>`
+
+| Flag | Description |
+|------|-----------|
+| `--expand` | Expand the result of query to not truncate in-view at End Of Line |
+| `--export` | Export result of a query to save it |
 
 **Usage:**  
 `.help` to view all commands, and then command-specific syntax to be followed
@@ -165,7 +144,7 @@ We are constantly evolving! Below are some planned features for in-future update
 * **User Profile:** Implement JSON structured user-profiles, for a local PY DBMS account, which enables a user to access multiple DBMS with user specific preferences/themes/etc.
 * **Multi-Engine Support:** Currently we support only `mysql`, but in future we plan to support multiple DBMS engines such as `oracle-db`, `mongo-db`, etc.
 * **Consistent Formatting across all DBMS:** Consistent `rich` UI themes across all DBMS.
-* **Session History Export:** Exporting session history in structured JSON & CSV format.
+* **JSON Export:** Integration into the new pluggable export system.
 * **UI Themes:** To utilize `rich` to make preset theme settings for `py-dbms`.
 
 ---
