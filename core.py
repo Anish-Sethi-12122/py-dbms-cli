@@ -2,21 +2,19 @@
 PY DBMS — DB client CLI
 Copyright (C) 2025  Anish Sethi
 Licensed under - BSD-3-Clause License
-Version - 2.5.0
-Release - Stable
+Version - 3.0.0
+Release - Experimental
 '''
+
+# pydbms/pydbms/core.py
 
 from .Global import Print, console, config
 from .dependencies import pyfiglet, Text, Table, Align, Rule, Panel, mysql, sys, Group
-from .pydbms_mysql import execute, execute_change, execute_select, connect, get_query_mysql
+from .pydbms_mysql import execute, execute_change, execute_select, get_query_mysql
+from .pydbms_path import pydbms_path
 from .config import parse_query_config, coerce_value_config, save_config, get_default_value_config, validate_config_types, DEFAULT_SESSION_CONFIG, SESSION_CONFIG
-
-QUERY_HANDLERS = {
-    "select": execute_select,
-    "change": execute_change,
-    "ddl": execute_change,
-    "other": execute,
-}
+from .export.export_manager import export_manager
+from .db.db_manager import connect_db
 
 def print_banner() -> None:
     ascii_art = pyfiglet.figlet_format("PY   DBMS", font="slant").rstrip()
@@ -27,13 +25,11 @@ def print_banner() -> None:
     banner_table.add_column("1", justify="center", ratio=1)
     banner_table.add_column("2", justify="center", ratio=1)
     banner_table.add_column("3", justify="center", ratio=1)
-    banner_table.add_column("4", justify="center", ratio=1)
 
     banner_table.add_row(
-        "[bold cyan]v2.5.0[/]\n [bold white]Version[/]",
         "[bold yellow]MySQL[/]\n[bold white]Currently Supported[/]", 
         "[bold green]Online since 2025[/]\n[bold white]Status[/]",
-        "[bold magenta]Stable[/]\n[bold white]Release[/]"
+        "[bold magenta] Experimental[/]\n[bold white]Release[/]"
     )
     
     author = Text("Anish Sethi  •  Delhi Technological University  •  Class of 2029", style="bright_white")
@@ -81,7 +77,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
     if cmd == ".help":
         help_table = Table(title="Helper Commands", show_header=False, border_style="bold magenta")
         help_table.add_column("Command", overflow="ellipsis")
-        help_table.add_column("Description", style="white", overflow="ellipsis")
+        help_table.add_column("Description", style="white", no_wrap=True)
         help_table.add_row(".help", "Show helper commands")
         help_table.add_row(".databases", "Show databases in current connection")
         help_table.add_row(".tables", "Show tables in current database")
@@ -101,8 +97,9 @@ def meta(cmd: str, cur: object, con=None) -> None:
         console.print()
         help_table = Table(title="Helper Flags", show_header=False, border_style="bold magenta")
         help_table.add_column("Flag Usage", overflow="ellipsis")
-        help_table.add_column("Description", style="white", overflow="ellipsis")
+        help_table.add_column("Description", style="white", no_wrap=True)
         help_table.add_row("--expand", "Show full cell value without wrap")
+        help_table.add_row("--export <format>", "Export a query result. NOTE: Currently works only to CSV export")
         console.print(help_table)
         console.print()
         return
@@ -157,8 +154,8 @@ def meta(cmd: str, cur: object, con=None) -> None:
         info.add_column("", style="dim white")
 
         info.add_row("Name", "[link=https://github.com/Anish-Sethi-12122/py-dbms-cli]pydbms Terminal[/link]")
-        info.add_row("Version", "v2.5.0")
-        info.add_row("Build", "Stable Release")
+        info.add_row("Version", "v3.0.4")
+        info.add_row("Build", "Experimental Release")
         info.add_row("Python", f"[link=https://www.python.org/]{sys.version.split()[0]}[/link]")
         info.add_row("MySQL", f"[link=https://www.mysql.com/]{con.get_server_info()}[/link]")
         info.add_row("Author", "[link=https://www.linkedin.com/in/anish-sethi-dtu-cse/]Anish Sethi[/link]")
@@ -372,17 +369,25 @@ def classify_query(query: str) -> str:
     return "other"
 
 def main():
-    global config
-    config = validate_config_types()
+    config_validated = validate_config_types()
+    config.clear()
+    config.update(config_validated)
+
     if config["ui"].get("show_banner", True):
         print_banner()
-        
-    con, cur = connect()
     
-    Print("Welcome to PY DBMS. If you are unsure where to start, here are some helper commands.", "YELLOW")
+    Print("\nWelcome to PY DBMS, a UI/UX focused CLI tool for your Database needs.\nNOTE that PY DBMS is a Database Client that provides an interface to access databases, and not a database manager itself.\n\n", "MAGENTA", slow_type=False)
     console.print()
     console.print()
+    
+    con, cur = connect_db.driver("mysql", config)
+    console.print()
+    while not con or not cur:
+        con, cur = connect_db.driver("mysql", config)
+    
+    Print("\n\nIf you are unsure where to start, here are some helper commands.\n\n", "YELLOW")
     meta(".help",cur)
+    console.print()
     
     while True:
         query = get_query_mysql()
@@ -397,13 +402,29 @@ def main():
             meta(query.strip(), cur, con)
             continue
 
-        query_handle = QUERY_HANDLERS.get(query_type, execute)
+        query_type = classify_query(query)
 
         try:
-            if query_handle is execute_change:
-                query_handle(query, con, cur)
+            if query_type == "select":
+                if "--export" in query:
+                    clean_query = query.replace("--export", "").strip()
+                    result = execute_select(clean_query, cur)
+
+                    path = export_manager.export(fmt="csv",result=result,path=pydbms_path("output.csv"))
+                    if path is not None:
+                        Print(f"Exported result to {path}", "GREEN")
+                    else:
+                        Print("Error while exporting. Please check if you have the syntax correct.\n", "RED")
+                        Print("Usage: <query> --export", "YELLOW")
+                    
+                else:
+                    execute_select(query, cur)
+                    
+            elif query_type == "change":
+                execute_change(query, con, cur)
+                
             else:
-                query_handle(query, cur)
+                execute(query, cur)
                 
         except mysql.Error as err:
             console.print(f"{err.msg}", style="bold red")
