@@ -108,7 +108,7 @@ You’ll be greeted with an interactive dashboard prompting MySQL credentials.
 You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax).  
 
 ### Querying
-You can write standard SQL queries. The tool supports multi-line input just like `mysql-cli`:  
+You can write standard SQL queries. The tool supports multi-line queries too:  
 
 <img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-2-image" alt="example-usage-2">
 
