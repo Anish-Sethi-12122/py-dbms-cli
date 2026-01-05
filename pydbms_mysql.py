@@ -1,35 +1,8 @@
-#Instance MySQL
+# pydbms/pydbms/pydbms_mysql.py
 
-from .dependencies import mysql, pwinput, sys, time, sqlparse, Panel, Table, re, box
+from .dependencies import time, sqlparse, Panel, Table, re, box, dataclass, List, Any
 from .Global import Print, console, config
-from .config import SESSION_CONFIG
-
-def connect() -> tuple[object,object] | int:
-    try:
-        host=config["mysql"].get("host", "localhost")
-        user=config["mysql"].get("user", "root")
-        Print(f"pydbms> Enter host name for MySQL (default value -> {host}):", "YELLOW")
-        host=input()
-        if not host:
-            host="localhost"
-        Print(f"pydbms> Enter user name for MySQL (default value -> {user}):", "YELLOW")
-        user=input()
-        if not user:
-            user="root"
-        Pas=pwinput.pwinput(prompt='pydbms> Enter password: ', mask='*')
-    except KeyboardInterrupt:
-        Print("Invalid", "RED", "bold")
-        sys.exit()
-        
-    try:
-        con = mysql.connect(host=host, user=user, passwd=Pas)
-        cur = con.cursor()
-        Print("✅ Login successful.\nSuccessfully connected to MySQL\n\n","GREEN")
-        return con,cur
-    except mysql.Error:
-        Print("❌ Login failed: Incorrect password entered\n", "RED", "bold")
-        sys.exit()
-    return -1
+from .config import SESSION_CONFIG, expand_query_session_config_mapping as Overflow
 
 def print_warnings(cur: object) -> bool:
     warnings = cur.fetchwarnings()
@@ -40,7 +13,7 @@ def print_warnings(cur: object) -> bool:
         return True
     return False
 
-def execute_select(query: str,cur: object) -> None:
+def execute_select(query: str,cur: object) -> tuple[int, tuple[object,object, str, str, str] | list[tuple[object,object, str, str, str]], list] | None:    
     start = time.perf_counter()
     cur.execute(query)
     end = time.perf_counter()
@@ -56,8 +29,12 @@ def execute_select(query: str,cur: object) -> None:
     
     result_table = Table(show_header=True, box=box.SIMPLE_HEAVY, padding=(0,1))
     
-    for i in columns:
-        result_table.add_column(i, style="white", overflow=SESSION_CONFIG["wrap_line_dict"].get(SESSION_CONFIG["wrap_line"]))
+    if "--expand" not in query:
+        for i in columns:
+            result_table.add_column(i, style="white", overflow=Overflow(SESSION_CONFIG.get("expand-query-result", False)))
+    else:
+        for i in columns:
+            result_table.add_column(i, style="white", no_wrap=True)
 
     for row in result:
         row_row = []
@@ -90,6 +67,8 @@ def execute_select(query: str,cur: object) -> None:
     console.print()
     Print(msg, "YELLOW" if has_warning else "GREEN")
     console.print()
+    
+    return QueryResult(query=query,columns=columns,rows=result)
 
 def execute_change(query: str,con: object,cur: object) -> None:
     cur.execute(query)
@@ -119,7 +98,7 @@ def execute(query: str,cur: object) -> None:
     Print(msg, "YELLOW" if has_warning else "GREEN")
     console.print()
     
-def get_query_mysql() -> object:
+def get_query_mysql() -> str:
     try:
         buffer = ""
         while True:
@@ -130,13 +109,12 @@ def get_query_mysql() -> object:
             statements = sqlparse.parse(buffer)
             if statements and buffer.strip().endswith(";"):
                 break
-        query = buffer
+        console.print()
+        return buffer
             
     except KeyboardInterrupt:
         Print("Invalid", "RED", "bold")
-        
-    console.print()
-    return query
+        raise
 
 def get_query_title(query: str) -> str:
     q = query.strip().lower()
@@ -192,3 +170,9 @@ def get_query_title(query: str) -> str:
         return f"Help: {query[4:].strip()}"
 
     return "Query Result"
+
+@dataclass
+class QueryResult:
+    query: str
+    columns: List[str]
+    rows: List[List[Any]]
