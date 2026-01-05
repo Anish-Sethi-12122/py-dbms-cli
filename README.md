@@ -81,7 +81,7 @@ Introduced a structured result model that separates query execution from represe
 - Python **3.10+**
 - A running **MySQL Server** instance
 
-## Run the following command to download from PyPI:
+## Run the following command in your terminal to download from PyPI:
 ```bash
 pip install py-dbms-cli
 ```
@@ -92,7 +92,7 @@ This step also installs all dependencies**
 
 # 🎮 Usage
 
-## 1. Run from cmd
+## 1. Run from your terminal
 ```bash
 pydbms
 ```
