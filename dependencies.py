@@ -1,6 +1,6 @@
-#Dependencies imports
+# pydbms/pydbms/dependencies.py
 
-import mysql.connector as mysql, sqlparse, pwinput, time, sys, pyfiglet, re, os, json, copy
+import mysql.connector as mysql, sqlparse, pwinput, time, sys, pyfiglet, re, os, json, copy, datetime, csv
 from rich.console import Console, Group
 from rich.text import Text
 from rich.panel import Panel
@@ -8,3 +8,5 @@ from rich import box
 from rich.table import Table
 from rich.align import Align
 from rich.rule import Rule
+from dataclasses import dataclass
+from typing import List, Any
