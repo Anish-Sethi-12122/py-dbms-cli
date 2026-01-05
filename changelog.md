@@ -54,3 +54,32 @@
   **UI & UX Refinements**
   - Unified visual theming across panels, tables, and help output for a consistent terminal experience.
   - Maintained minimalism while increasing discoverability of advanced features.
+
+## v3.0.0 - Experimental Release
+
+**Database Connection Architecture (NEW)**
+- Introduced a modular DB connector architecture to decouple connection logic from the CLI core.
+- Added a common connector interface to enable future multi-engine support without refactoring core execution logic.
+- MySQL support has been migrated to the new architecture with no change in user-facing behavior.
+
+**Query Export System (v3 foundation)**
+- Introduced a pluggable export system with a dedicated exporter interface.
+- Added an export manager to centralize format handling and future extensibility.
+- Implemented CSV export support using the new architecture.
+- Export operations are non-fatal: invalid formats or misuse do not terminate the CLI session.
+
+**Internal Result Abstraction**
+- Added a structured query result model to clearly separate:
+  - Query execution
+  - Result representation
+  - Output/export concerns
+- This abstraction serves as the foundation for future export formats (JSON, etc.).
+
+**UI Compatibility Guarantee**
+- Preserved existing query UX and helper syntax to ensure backward compatibility during architectural migration.
+- User-facing behavior remains familiar while internals evolve.
+
+**Experimental Notes & Limitations**
+- Export UX, default filenames, and additional formats are intentionally minimal in this release.
+- Profile system integration and JSON export are deferred to **v3.1.0 (Stable)**.
+- Internal APIs may change before stabilization.
