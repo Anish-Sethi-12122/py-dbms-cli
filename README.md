@@ -34,7 +34,7 @@ It replaces the cluttered, low-signal MySQL CLI with:
 - safe export workflows,
 - and a robust configuration system.
 
-> Think *psql-level ergonomics*, but for MySQL — with modern Python tooling.
+> PS, this better than MySQL CLI.
 
 ---
 
