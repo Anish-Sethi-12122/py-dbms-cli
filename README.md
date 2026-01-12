@@ -26,7 +26,7 @@
 
 ## ⚡ Introduction
 
-**PY DBMS** is a modern, UI/UX-focused **MySQL CLI client** built in Python for developers who prefer the terminal—but expect clarity, safety, and structure.
+**PY DBMS** is a modern, UI/UX-focused **MySQL CLI client** built in Python for developers who prefer the terminal—but hate the clutter.
 
 It replaces the cluttered, low-signal MySQL CLI with:
 - clean tabular output,
