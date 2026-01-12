@@ -1,23 +1,22 @@
 <div align="center">
 
-  <div align="center">
-    <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ffff,100:8a2be2&height=200&section=header&text=PY%20DBMS&fontSize=80&fontAlign=50&fontAlignY=35&desc=The%20Modern,%20Secure,%20all-in-one%20DBMS%20Client&descAlign=50&descAlignY=55&animation=fadeIn&fontFace=Fira+Code" alt="PY DBMS Banner" width="100%"/>
-  </div>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ffff,100:8a2be2&height=200&section=header&text=PY%20DBMS&fontSize=80&fontAlign=50&fontAlignY=35&desc=Modern,%20Secure,%20Terminal-first%20DBMS%20Client&descAlign=50&descAlignY=55&animation=fadeIn&fontFace=Fira+Code" width="100%"/>
 
   [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-  [![MySQL](https://img.shields.io/badge/MySQL-Connector-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+  [![MySQL](https://img.shields.io/badge/MySQL-Supported-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
-  [![Status](https://img.shields.io/badge/Status-Experimental-yellow?style=for-the-badge)]()
-  [![Version](https://img.shields.io/badge/Version-3.0.0-cyan?style=for-the-badge)](https://github.com/Anish-Sethi-12122/py-dbms-cli)
+  [![Status](https://img.shields.io/badge/Status-Stable-success?style=for-the-badge)]()
+  [![Version](https://img.shields.io/badge/Version-3.1.0-cyan?style=for-the-badge)]()
 
   <p align="center">
-    <strong>A robust, aesthetic, modern, and secure Command Line Interface for database management.</strong>
+    <strong>A modern, secure, terminal-first DBMS client built for developers.</strong>
   </p>
 
-  <a href="#-whats-new-in-v300">What's New</a> •
+  <a href="#-introduction">Introduction</a> •
   <a href="#-features">Features</a> •
   <a href="#-installation">Installation</a> •
   <a href="#-usage">Usage</a> •
+  <a href="#-flags--export">Flags</a> •
   <a href="#-roadmap">Roadmap</a> •
   <a href="#-license">License</a>
 
@@ -25,63 +24,87 @@
 
 ---
 
-# ⚡ Introduction
+## ⚡ Introduction
 
-**PY DBMS** is a Python-based database client designed for developers who love the terminal but hate the clutter.
+**PY DBMS** is a modern, UI/UX-focused **MySQL CLI client** built in Python for developers who prefer the terminal—but expect clarity, safety, and structure.
 
-It is a **modern, secure, lightweight, all-in-one DBMS CLI** built with a modular architecture. It transforms raw SQL output into **clean, readable tables** via the `rich` UI library, while ensuring security through masked `pwinput` prompts.
+It replaces the cluttered, low-signal MySQL CLI with:
+- clean tabular output,
+- composable query flags,
+- safe export workflows,
+- and a robust configuration system.
 
-> PS: Yes, this *is* better than MySQL CLI 😉
-
----
-
-## ✨ What’s New in v3.0.0
-> **v3.0.0** is a major experimental release focusing on internal architecture modernization and long-term extensibility.
-
-### 🏗️ Modular DB Connector Architecture (NEW)
-We have decoupled the connection logic from the CLI core. This allows for:
-- **Future Multi-Engine Support:** Ready-to-implement connectors for PostgreSQL, SQLite, etc.
-- **Common Interface:** Standardized execution logic across different database types.
-
-### 📤 Pluggable Query Export System
-A new foundation for data portability:
-- **Dedicated Export Manager:** Centralized handling of output formats.
-- **CSV Support:** Initial implementation of direct-to-CSV exporting.
-- **Non-Fatal Resilience:** Export failures or missing directories do not crash the active DB session.
-
-### 🧱 Internal Result Abstraction
-Introduced a structured result model that separates query execution from representation. This is the cornerstone for upcoming features like JSON exports and unified theming.
+> Think *psql-level ergonomics*, but for MySQL — with modern Python tooling.
 
 ---
 
-# 🚀 Features
+## 🚀 Features
 
-## 🎨 Visual & UI
-- **Rich Terminal Interface:** High-fidelity, colorful output using `rich`.
-- **Clean Tables:** SQL results rendered in structured, readable grid layouts.
-- **Typewriter Status:** Aesthetic, real-time status updates for a premium CLI feel.
-
-## 🛠 Functional
-- **Modular Design:** Built to scale beyond MySQL into a universal database tool.
-- **Smart SQL Parsing:** Supports multi-line queries (terminated by `;`).
-- **Meta Commands:** Dot-helpers like `.tables`, `.schema`, `.export <format>`, and `.config`.
-- **Configuration Layers:** - **Persistent:** `config.json` for long-term preferences.
-  - **Session-level:** `.session-config` for runtime experimentation.
-  - **Query-level:** Inline flags like `--expand`.
-
-## 🛡 Security
-- **Masked Input:** Credentials are never echoed to the screen.
-- **Zero-Persistence Policy:** Sensitive passwords are never saved in config files.
+### 🎨 Terminal UI / UX
+- **Rich-powered Interface** — clean tables, panels, and color-coded feedback
+- **Readable Query Results** — structured output instead of raw text dumps
+- **Consistent Visual Language** — success, warnings, and errors are instantly recognizable
+- **Startup Dashboard** — session summary on launch
 
 ---
 
-# 📦 Installation
+### 🧠 Smart Query Handling
+- **Multi-line SQL Support** — execute only after `;`
+- **Accurate Execution Feedback** — timing, rows returned, warnings
+- **Single-execution Guarantee** — no duplicate queries, even with flags
 
-## Prerequisites
+---
+
+### 📊 Query Output Control
+- **`--expand` flag**
+  - Expands columns to avoid truncation
+  - Overrides session defaults **only for that query**
+- **Session-level defaults**
+  - Configure once, override when needed
+- **Composable behavior**
+  - `--expand` and `--export` work together cleanly
+
+---
+
+### 📤 Query Export System (Stable)
+- **Pluggable Export Manager**
+- **Supported formats**
+  - CSV
+  - JSON
+- **Predictable UX**
+  - Default `exports/` directory if path is omitted
+  - Timestamped filenames
+- **Quoted paths supported**
+  - Spaces in file paths work correctly
+- **Non-fatal by design**
+  - Export errors never crash the session
+
+---
+
+### ⚙️ Configuration System
+- **Persistent config**
+  - Stored safely in an OS-appropriate runtime directory
+- **Session config**
+  - Runtime overrides without touching disk
+- **Query-level overrides**
+  - Flags like `--expand` for one-off control
+
+---
+
+### 🔐 Security
+- **Masked password input**
+- **Zero credential persistence**
+- **Local-first philosophy**
+
+---
+
+## 📦 Installation
+
+### Prerequisites
 - Python **3.10+**
-- A running **MySQL Server** instance
+- A running **MySQL server**
 
-## Run the following command in your terminal to download from PyPI:
+### Install via PyPI
 ```bash
 pip install py-dbms-cli
 ```
