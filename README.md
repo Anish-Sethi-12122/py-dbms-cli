@@ -72,12 +72,12 @@ It replaces the cluttered, low-signal MySQL CLI with:
   - CSV
   - JSON
 - **Predictable UX**
-  - Default `exports/` directory if path is omitted
+  - Default `exports/` directory if path is not provided.
   - Timestamped filenames
 - **Quoted paths supported**
-  - Spaces in file paths work correctly
+  - Spaces in file paths work correctly (as path parsing is implemented using `shlex` library).
 - **Non-fatal by design**
-  - Export errors never crash the session
+  - Export errors give a graceful reason for error, and never crash the session
 
 ---
 
@@ -87,14 +87,14 @@ It replaces the cluttered, low-signal MySQL CLI with:
 - **Session config**
   - Runtime overrides without touching disk
 - **Query-level overrides**
-  - Flags like `--expand` for one-off control
+  - Flags like `--expand` override the session-config value.
 
 ---
 
 ### 🔐 Security
-- **Masked password input**
-- **Zero credential persistence**
-- **Local-first philosophy**
+- **Masked password input**: `pwinput`
+- **Credential Security**: sensitive connection details (like password) saved as an `argon2` hash.
+- **Local-first philosophy**: works good on virtual environments.
 
 ---
 
