@@ -1,10 +1,10 @@
 # pydbms/db/mysql.py
 
-import sys
-import pwinput
-import mysql.connector as mysql
+from ..main.dependencies import pwinput, mysql, hash_argon2
 from .db_base import DBConnector
-from ..Global import Print
+from ..main.runtime import Print
+from ..main.profile import MySQLProfile
+from ..main import profile
 
 class MySQLConnector(DBConnector):
 
@@ -32,8 +32,17 @@ class MySQLConnector(DBConnector):
             self.cursor = self.connection.cursor()
 
             Print("✅ Login successful.", "GREEN")
+            
+            profile.PROFILE = MySQLProfile(
+                host=self.host,
+                user=self.user,
+                password_hash=hash_argon2(self.password)
+            )
+            
             return self.connection, self.cursor
 
         except mysql.Error:
-            Print(f"❌ Incorrect Password entered. Try again", "RED", "bold")
+            Print(f"❌ Incorrect Credentials entered. Try again\n\n", "RED", "bold")
             return None, None
+        
+        
