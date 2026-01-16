@@ -1,8 +1,7 @@
 # pydbms/db/db_manager.py
 
 from .mysql import MySQLConnector
-from ..Global import Print
-import sys
+from ..main.runtime import Print
 
 class connect_db:
     DRIVERS = {
@@ -14,8 +13,8 @@ class connect_db:
         db_type = db_type.lower()
 
         if db_type not in connect_db.DRIVERS:
-            Print(f"Unsupported DB: {db_type}", "RED", "bold")
-            sys.exit()
+            Print(f"Unsupported DB: {db_type}\n", "RED", "bold")
+            raise Exception(f"Unsupported DB: {db_type}")
 
         connector = connect_db.DRIVERS[db_type](config)
         connector.prompt_credentials()
