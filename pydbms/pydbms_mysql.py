@@ -1,6 +1,6 @@
 # pydbms/pydbms/main/pydbms_mysql.py
 
-from .dependencies import time, sqlparse, Panel, Table, re, box, dataclass, List, Any
+from .dependencies import time, Panel, Table, re, box, dataclass, List, Any
 from .runtime import Print, console, config
 from .config import expand_query_session_config_mapping as Overflow
 
@@ -196,3 +196,4 @@ class QueryResult:
     query: str
     columns: List[str]
     rows: List[List[Any]]
+
