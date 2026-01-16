@@ -1,10 +1,11 @@
-# pydbms/pydbms/Global.py
+# pydbms/pydbms/main/runtime.py
 
-from .dependencies import Console, time, datetime, pwinput, sys, mysql
+from .dependencies import Console, time, datetime, pydbms_version
 from .config import load_config
 
 console=Console()
 config = load_config()
+ver = pydbms_version("py-dbms-cli")
 
 def Print(message: str, color_key: str ="WHITE", style: str = "", slow_type: bool = True) -> None:
     COLOR_MAP = {
@@ -35,3 +36,4 @@ def current_datetime() -> str:
     Second = current_datetime.second
     
     return f"{Year}-{Month}-{Day}_{Hour}-{Minute}-{Second}"
+s
