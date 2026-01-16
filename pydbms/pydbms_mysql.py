@@ -1,8 +1,45 @@
-# pydbms/pydbms/pydbms_mysql.py
+# pydbms/pydbms/main/pydbms_mysql.py
 
 from .dependencies import time, sqlparse, Panel, Table, re, box, dataclass, List, Any
-from .Global import Print, console, config
-from .config import SESSION_CONFIG, expand_query_session_config_mapping as Overflow
+from .runtime import Print, console, config
+from .config import expand_query_session_config_mapping as Overflow
+
+def get_query_mysql() -> str:
+    try:
+        lines = []
+
+        while True:
+            prompt = "pydbms> " if not lines else "       "
+            line = input(prompt)
+            lines.append(line)
+
+            stripped = line.strip()
+
+            if stripped.startswith("."):
+                break
+            
+            if semicolon_in_query(line):
+                break
+
+        console.print()
+        return "\n".join(lines)
+
+    except KeyboardInterrupt:
+        raise
+
+def semicolon_in_query(line: str) -> bool:
+    in_single = False
+    in_double = False
+
+    for ch in line:
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single:
+            in_double = not in_double
+        elif ch == ";" and not in_single and not in_double:
+            return True
+
+    return False
 
 def print_warnings(cur: object) -> bool:
     warnings = cur.fetchwarnings()
@@ -31,7 +68,7 @@ def execute_select(query: str,cur: object) -> tuple[int, tuple[object,object, st
     
     if "--expand" not in query:
         for i in columns:
-            result_table.add_column(i, style="white", overflow=Overflow(SESSION_CONFIG.get("expand-query-result", False)))
+            result_table.add_column(i, style="white", overflow=Overflow())
     else:
         for i in columns:
             result_table.add_column(i, style="white", no_wrap=True)
@@ -98,23 +135,6 @@ def execute(query: str,cur: object) -> None:
     Print(msg, "YELLOW" if has_warning else "GREEN")
     console.print()
     
-def get_query_mysql() -> str:
-    try:
-        buffer = ""
-        while True:
-            line = input("pydbms> " if buffer == "" else "       ")
-            buffer += line + "\n"
-            if buffer.strip().startswith("."):
-                break
-            statements = sqlparse.parse(buffer)
-            if statements and buffer.strip().endswith(";"):
-                break
-        console.print()
-        return buffer
-            
-    except KeyboardInterrupt:
-        Print("Invalid", "RED", "bold")
-        raise
 
 def get_query_title(query: str) -> str:
     q = query.strip().lower()
