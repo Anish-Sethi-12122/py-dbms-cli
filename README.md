@@ -68,14 +68,15 @@ It replaces the cluttered, low-signal MySQL CLI with:
 
 ### 📤 Query Export System (Stable)
 - **Pluggable Export Manager**
+- - OOP implementation using `class`
 - **Supported formats**
   - CSV
   - JSON
 - **Predictable UX**
   - Default `exports/` directory if path is not provided.
-  - Timestamped filenames
+  - Timestamped filenames with username. eg.  `pydbms-export-root-2026-01-01_00-00-00.csv`
 - **Quoted paths supported**
-  - Spaces in file paths work correctly (as path parsing is implemented using `shlex` library).
+  - Spaces in file paths work correctly (path parsing is implemented using `shlex` python library).
 - **Non-fatal by design**
   - Export errors give a graceful reason for error, and never crash the session
 
@@ -85,7 +86,7 @@ It replaces the cluttered, low-signal MySQL CLI with:
 - **Persistent config**
   - Stored safely in an OS-appropriate runtime directory
 - **Session config**
-  - Runtime overrides without touching disk
+  - Runtime config system that persists as a setting for the active connection, resets everytime.
 - **Query-level overrides**
   - Flags like `--expand` override the session-config value.
 
