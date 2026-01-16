@@ -42,9 +42,9 @@ It replaces the cluttered, low-signal MySQL CLI with:
 
 ### 🎨 Terminal UI / UX
 - **Rich-powered Interface** — clean tables, panels, and color-coded feedback
-- **Readable Query Results** — structured output instead of raw text dumps
-- **Consistent Visual Language** — success, warnings, and errors are instantly recognizable
-- **Startup Dashboard** — session summary on launch
+- **Readable Query Results** — structured output with beautiful tables (implemented using `rich.table`) instead of raw text dumps
+- **Consistent Visual Language** — success, warnings, and errors are instantly recognizable through colour coding
+- **Startup Dashboard** — banner + helper table printed by-default
 
 ---
 
