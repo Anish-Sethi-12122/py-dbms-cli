@@ -1,1 +1,2 @@
-# PY DBMS is a CLI-only package. Not intended for direct import.
+# Internal CLI modules for PY DBMS.
+# Not part of the public import API.
