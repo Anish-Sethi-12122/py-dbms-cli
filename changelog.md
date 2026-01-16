@@ -10,6 +10,8 @@
   - Introduces a persistent `config.json`
   - Enables user-controlled behavior such as banner visibility (introduced as a concept, not utilized in v2.0)
 
+---
+
 ## v2.1.5 - Stable Release
 > #NOTE: v2.1.0 had a bug while uploading to PyPI, hence version naming **v2.1.5** has been taken for stable release.    
 
@@ -26,6 +28,8 @@
   - Added `.config set <section>.<key> <value>` for modifying configuration values at runtime.
   - Added `.config reset <section>.<key>` to restore individual settings to their default values.
   - Configuration changes are validated and written to disk immediately.
+
+---
 
 ## v2.5.0 – Stable Release
   **Session-Level Configuration System**
@@ -55,6 +59,8 @@
   - Unified visual theming across panels, tables, and help output for a consistent terminal experience.
   - Maintained minimalism while increasing discoverability of advanced features.
 
+---
+
 ## v3.0.0 - Experimental Release
 
 **Database Connection Architecture (NEW)**
@@ -83,3 +89,49 @@
 - Export UX, default filenames, and additional formats are intentionally minimal in this release.
 - Profile system integration and JSON export are deferred to **v3.1.0 (Stable)**.
 - Internal APIs may change before stabilization.
+
+---
+
+## v3.1.0 — Stable Release
+
+This release introduces major architectural changes and finalizes the architecture introduced in v3.0.0 and delivers a stable, fully composable query export and output-control system.
+
+### Query Export System (Stabilized)
+- Added **JSON export support** alongside CSV.
+- Enforced strict export syntax:  
+  `<query> --export <format> <path?>`
+- Implemented predictable default export behavior:
+  - Automatic `exports/` directory creation
+  - Deterministic filenames with timestamps
+- Added support for **quoted file paths with spaces** (implemented via `shlex`).
+- Hardened error handling:
+  - Invalid formats
+  - Incorrect usage
+  - Empty result sets
+- Export failures never terminate the active session.
+
+### Inline Output Control (`--expand`)
+- Finalized `--expand` behavior with clear precedence rules:
+  - Query-level `--expand` overrides session configuration
+  - Session configuration defines default wrapping behavior
+- Ensured `--expand` composes correctly with `--export`.
+- Fixed rendering inconsistencies and eliminated duplicate query execution.
+- Improved stability by resolving a function signature mismatch in overflow handling.
+
+### Core Execution Reliability
+- Guaranteed **single execution per query**, regardless of flag combinations.
+- Improved control-flow structure for flag composition.
+- Eliminated edge-case crashes related to configuration mapping.
+
+### UX & CLI Consistency
+- Standardized export-related success and error messages.
+- Improved `.help` documentation for helper flags.
+- Preserved backward compatibility with existing query syntax.
+
+### Internal Quality Improvements
+- Strengthened separation between:
+  - Query execution
+  - Result rendering
+  - Export handling
+- Reduced coupling between CLI control flow and rendering logic.
+- Improved long-term maintainability and extensibility.
