@@ -203,14 +203,21 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         try:
             if expected_type is bool:
-                value = raw_value.lower() in ("true", "1", "yes", "on")
-            elif raw_value.lower() in ("false", "0", "no", "off"):
-                value = False
+                val = raw_value.lower()
+                if val in ("true", "1", "yes", "on"):
+                    value = True
+                elif val in ("false", "0", "no", "off"):
+                    value = False
+                else:
+                    raise ValueError("Invalid boolean")
             else:
-                Print(f"Invalid value for {path}. Expected boolean (true/false).\n","RED")
-                
+                value = expected_type(raw_value)
+
         except Exception:
-            Print(f"Invalid value for {path}. Expected {expected_type.__name__}.","RED")
+            Print(
+                f"Invalid value for {path}. Expected {expected_type.__name__}.",
+                "RED"
+            )
             console.print()
             return
 
