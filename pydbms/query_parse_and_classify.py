@@ -1,17 +1,40 @@
 # pydbms/pydbms/main/query_parse_and_classify.py
 
-from .dependencies import shlex
+from .dependencies import shlex, dataclass
 
-def parse_query(raw: str) -> tuple[str, str | None]:
-    if ";" not in raw:
-        return raw.strip(), None
+@dataclass #The class is not implemented as of v3.1.0
+class ParsedQuery:
+    sql: str
+    flags: dict
 
-    head, sep, tail = raw.partition(";")
-    core = head.strip() + ";"
-    rest = tail.strip()
+def parse_query_and_flags(raw: str) -> tuple[str, str | None]:
+    in_single = False
+    in_double = False
+    escape = False
 
-    return core, rest if rest else None
+    for i, ch in enumerate(raw):
+        if escape:
+            escape = False
+            continue
 
+        if ch == "\\":
+            escape = True
+            continue
+
+        if ch == "'" and not in_double:
+            in_single = not in_single
+            continue
+
+        if ch == '"' and not in_single:
+            in_double = not in_double
+            continue
+
+        if ch == ";" and not in_single and not in_double:
+            sql = raw[: i + 1].strip()
+            rest = raw[i + 1 :].strip()
+            return sql, rest if rest else None
+
+    return raw.strip(), None
 
 def classify_query(query: str) -> str:
     q = query.strip().lower()
