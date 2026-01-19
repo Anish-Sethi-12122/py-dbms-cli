@@ -15,7 +15,7 @@ from .pydbms_path import pydbms_path
 from ..export.export_manager import ExportManager
 from ..db.db_manager import connect_db
 from .config import validate_config_types
-from .query_parse_and_classify import parse_query, classify_rest, classify_query
+from .query_parse_and_classify import parse_query_and_flags, classify_rest, classify_query
 from .meta_handler import meta
 
 def print_banner() -> None:
@@ -96,7 +96,7 @@ def main():
     console.print()
     
     while True:
-        query, rest = parse_query(get_query_mysql())
+        query, rest = parse_query_and_flags(get_query_mysql())
         query_type = classify_query(query)
         rest_flags = classify_rest(rest)
 
