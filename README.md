@@ -32,6 +32,15 @@
 
 ---
 
+## ✨ Why pydbms?
+
+* **🚫 No More Wall of Text:** Uses `Rich` to render data in clean, color-coded tables that actually fit your screen.
+* **🔒 Security by Design:** Your DB passwords aren't sitting in a `.txt` file. We use `Argon2` hashing and credential masking.
+* **📊 One-Flag Exporting:** Simply append `--export json` to any query. No more "SELECT INTO OUTFILE" headaches.
+* **🧩 Built to Extend:** Completely refactored in v3.1.0 using OOP principles, making it easy to add your own Meta Flags.
+
+---
+
 ## 🚀 Key Features
 
 ### 🎨 Terminal UI / UX
