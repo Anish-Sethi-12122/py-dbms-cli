@@ -196,4 +196,3 @@ class QueryResult:
     query: str
     columns: List[str]
     rows: List[List[Any]]
-
