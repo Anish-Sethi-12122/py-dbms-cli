@@ -125,13 +125,10 @@ Unlike Meta Commands, **Meta Flags** are appended directly to the end of your SQ
 
 # 🗺 Roadmap  
 
-[]- User Profiles: Implement `pydbms` local profile system.
-
-[]- Multi-Engine: Support for PostgreSQL, MongoDB, Oracle, etc.
-
-[]- UI Customization: Customizable themes using rich color presets.
-
-[]- Query History: Search and re-run previous queries across sessions.
+* **User Profiles:** Implement `pydbms` local profile system.
+* **Multi-Engine:** Support for PostgreSQL, MongoDB, Oracle, etc.
+* **UI Customization:** Customizable themes using rich color presets.
+* **Query History:** Search and re-run previous queries across sessions.
 
 ---
 
