@@ -47,8 +47,8 @@
 ### 📤 Stabilized Export System
 * **JSON & CSV Support:** Choose your format on the fly.
 * **Intelligent Pathing:** Support for quoted file paths with spaces (implemented via `shlex`).
-* **Automated Filing:** Default `exports/` directory with deterministic, timestamped filenames:  
-  `pydbms-export-root-2026-01-19_14-20-00.csv`
+* **Automated Filing:** Default `exports/` directory with deterministic, timestamped filenames, example:  
+  `pydbms-export-root-2026-01-01_00-00-01.csv`
 * **Non-Fatal Resilience:** Export errors provide graceful feedback without terminating your database session.
 
 ### ⚙️ Configuration & Security
