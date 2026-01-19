@@ -137,9 +137,8 @@ Unlike Meta Commands, **Meta Flags** are appended directly to the end of your SQ
 # 🗺 Roadmap  
 
 * **User Profiles:** Implement `pydbms` local profile system.
+* **User settings:** Implement persistent config to store user preferences like default export format, default DBMS (when later added support for multiple DBs), etc.  
 * **Multi-Engine:** Support for PostgreSQL, MongoDB, Oracle, etc.
-* **UI Customization:** Customizable themes using rich color presets.
-* **Query History:** Search and re-run previous queries across sessions.
 
 ---
 
@@ -153,4 +152,4 @@ This project is licensed under the BSD 3-Clause License.
 
 See the <a href="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE">LICENSE</a> file for more details.
 
-<div align="center"> Built with ❤️ for the developer community. </div>
+<div align="center"> Try using once, and if you like it ? ⭐ Star this repo to support a student-led open-source project and keep the updates coming! </div>
