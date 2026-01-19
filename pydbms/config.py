@@ -3,6 +3,7 @@
 
 from .pydbms_path import pydbms_path
 from .dependencies import json, os, copy
+from ..export.export_manager import ExportManager
 
 DEFAULT_SESSION_CONFIG = {
     "expand-query-result": False
@@ -12,6 +13,8 @@ def expand_query_session_config_mapping():
     return "fold" if SESSION_CONFIG["expand-query-result"] else "ellipsis"
     
 SESSION_CONFIG = copy.deepcopy(DEFAULT_SESSION_CONFIG)
+
+DEFAULT_EXPORT_PATH = ExportManager.default_export_path()
 
 DEFAULT_CONFIG = {
     "config_version": 1,
@@ -27,6 +30,11 @@ DEFAULT_CONFIG = {
         "user": "root",
         "database": None,
     },
+    
+    "export": {
+        "format": "csv",
+        "path": DEFAULT_EXPORT_PATH
+    }
 }
 
 def create_config() -> None:
