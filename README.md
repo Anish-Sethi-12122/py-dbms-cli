@@ -103,8 +103,7 @@ You are all ready to start using. Enter SQL commands as usual (in `mysql` syntax
 You can use standard MySQL syntax. You can also append Meta Flags to override behavior.
 ```SQL
 SELECT * FROM my_table
-WHERE stock < 10;
---expand
+WHERE stock < 10; --expand
 ```
 
 <img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/example-usage-2-image" alt="example-usage-2">
