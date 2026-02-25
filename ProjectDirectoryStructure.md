@@ -2,7 +2,6 @@
 
 ```text
 pydbms/
-├── .venv/                         (Virtual Environment - Content Skipped)
 ├── LICENSE                        (BSD-3-Clause License)
 ├── README.md                      (Project Documentation & System Evaluation)
 ├── changelog.md                   (Version History and Changes)
