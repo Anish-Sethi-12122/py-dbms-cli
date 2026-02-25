@@ -1,6 +1,9 @@
 # pydbms/export/export_json.py
 
-from ..main.dependencies import json, datetime, decimal, base64
+import json
+from datetime import datetime
+import decimal
+import base64
 from .export_base import Exporter
 
 
