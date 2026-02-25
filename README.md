@@ -180,6 +180,24 @@ Managed via appending raw `--flags` to the end of a SQL string. Overrides everyt
 
 ---
 
+## 🧪 Developer Testing
+
+PY DBMS strictly utilizes `pytest` to govern all underlying architecture (Query Execution, Parsing, CSV/JSON Export flows, and Configuration Schemas).
+
+All test pipelines are publicly committed to GitHub to ensure community pull requests maintain absolute stability.
+
+To contribute or run tests locally on your machine:
+
+```bash
+# 1. Install the CLI with developer testing dependencies attached
+pip install -e .[dev]
+
+# 2. Run the test suite natively
+pytest tests/
+```
+
+---
+
 # 👨‍💻 Author
 
 <pre><i> <a href="https://www.linkedin.com/in/anish-sethi-dtu-cse/">Anish Sethi</a>      |      B.Tech Computer Science & Engineering      |      Delhi Technological University (Class of 2029)</i></pre>
