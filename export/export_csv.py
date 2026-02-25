@@ -1,6 +1,6 @@
 # pydbms/export/export_csv.py
 
-from ..dependencies import csv
+import csv
 from .export_base import Exporter
 
 class CSVExporter(Exporter):
