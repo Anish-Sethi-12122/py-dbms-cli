@@ -187,7 +187,7 @@ Managed via appending raw `--flags` to the end of a SQL string. Overrides everyt
 ---
 
 ## 📄 License
-This project is licensed under the **BSD 3-Clause License**. See the [LICENSE](https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE) file for deep-dive specifications.
+This project is licensed under the **BSD 3-Clause License**. See the [LICENSE](https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE).
 
 <div align="center">
   <b>Consider dropping a ⭐️ star to support a student-led open-source project and keep the updates rolling in!</b>
