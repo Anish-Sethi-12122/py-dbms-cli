@@ -135,3 +135,28 @@ This release introduces major architectural changes and finalizes the architectu
   - Export handling
 - Reduced coupling between CLI control flow and rendering logic.
 - Improved long-term maintainability and extensibility.
+
+---
+
+## v4.0.0 — Experimental Release
+
+### Secure Local Authentication System
+- Implemented a mandatory local profiles gate (`profile.json`) restricting access to the CLI before logging in to `pydbms` local account.
+- Integrated hardware-grade cryptographic hashing utilizing `argon2-cffi` to ensure local passwords are never stored in plaintext.
+- Added encrypted keystroke masking globally using `pwinput` during login pipelines.
+
+### Terminal UI Refinements
+- Introduced live query execution spinners (`console.status`) precisely wrapped around MySQL database IO to clearly communicate network activity.
+- Revamped multi-line SQL formatting to replicate MySQL-standard prompts (`    -> `) upon subsequent line entry.
+- Improved explicit spacing pacing (newlines) across all `.config` error and success rendering blocks.
+
+### Strict Configuration Validation Schema
+- Completely replaced dynamic type-casting inference with a strict, static mathematical parser in `meta_handler.py`.
+- `ui.max_rows` strictly enforces positive integer bounds to prevent accidental `NoneType` value corruption.
+- `export.path` strictly enforces valid `os.path.isdir` resolutions and traps bad file-like paths safely.
+- All session configurations mathematically strict-check `boolean` mappings.
+
+### Developer Infrastructure
+- Fully integrated automated testing via the `pytest` engine.
+- Wrote extensive unit tests testing config validation, query string semantic parsing, CSV normalization logic, and regex table abstractions.
+- Established `tests/` directory root and appended testing dependencies to `pyproject.toml`.
