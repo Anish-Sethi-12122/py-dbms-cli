@@ -11,3 +11,7 @@ class DBConnector:
 
     def connect(self):
         raise NotImplementedError
+
+    @property
+    def exception_class(self):
+        raise NotImplementedError
