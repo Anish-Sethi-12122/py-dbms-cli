@@ -27,10 +27,14 @@ def print_banner() -> None:
     banner_table = Table(show_header=False, box=None, expand=True)
     banner_table.add_column("1", justify="center", ratio=1)
     banner_table.add_column("2", justify="center", ratio=1)
+    banner_table.add_column("3", justify="center", ratio=1)
+    banner_table.add_column("4", justify="center", ratio=1)
 
     banner_table.add_row(
+        "[bold cyan]v4.0.0[/]\n[bold white]Version[/]",
         "[bold yellow]MySQL[/]\n[bold white]Currently Supported[/]",
-        "[bold green]Online since 2025[/]\n[bold white]Status[/]"
+        "[bold green]Online since 2025[/]\n[bold white]Status[/]",
+        "[bold purple]Experimental[/]\n[bold white]Release[/]"        
     )
 
     author = Text("Anish Sethi  •  Delhi Technological University  •  Class of 2029", style="bright_white")
