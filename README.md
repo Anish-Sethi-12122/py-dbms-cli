@@ -39,7 +39,7 @@ v4.0.0 overhauls the system completely to introduce **Secure Local Authenticatio
 * **🚫 No More Walls of Text:** Utilizes `rich` to render data in clean, color-coded grid tables that respect your terminal bounds.
 * **🔒 Authentication Guard:** Your database credentials shouldn't be unprotected. `pydbms` requires a local profile login verified by an `argon2` hashed password.
 * **📊 One-Flag Exports:** Append `--export json` or `--export csv` to any query. No weird `INTO OUTFILE` permission issues from the backend server.
-* **👀 Responsive UI:** See exactly what's happening. Executing a heavy JOIN? A cyan spinner keeps you updated. Broke a query? Explicit red `mysql error>` tags will let you know instantly.
+* **👀 Responsive UI:** See exactly what's happening. Executing a heavy `JOIN`? A cyan spinner keeps you updated. Broke a query? Explicit red `mysql error>` tags will let you know instantly.
 
 ---
 
