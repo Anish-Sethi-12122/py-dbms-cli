@@ -208,5 +208,5 @@ pytest tests/
 This project is licensed under the **BSD 3-Clause License**. See the [LICENSE](https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE).
 
 <div align="center">
-  <b>Hey! to the user of this project. Liked using `pydbms` ? Consider dropping a ⭐️ star to support a student-led open-source project and keep the updates rolling in!</b>
+  <b>Hey! to the user of this project. Liked using `pydbms` ? <br>Consider dropping a ⭐️ star to support a student-led open-source project and keep the updates rolling in!</b>
 </div>
