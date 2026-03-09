@@ -34,7 +34,7 @@ v4.0.0 overhauls the system completely to introduce **Secure Local Authenticatio
 
 ---
 
-## ✨ Why PY DBMS?
+## ✨ Why `pydbms`?
 
 * **🚫 No More Walls of Text:** Utilizes `rich` to render data in clean, color-coded grid tables that respect your terminal bounds.
 * **🔒 Authentication Guard:** Your database credentials shouldn't be unprotected. `pydbms` requires a local profile login verified by an `argon2` hashed password.
