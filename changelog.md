@@ -142,7 +142,7 @@ This release introduces major architectural changes and finalizes the architectu
 
 ### Secure Local Authentication System
 - Implemented a mandatory local profiles gate (`profile.json`) restricting access to the CLI before logging in to `pydbms` local account.
-- Integrated hardware-grade cryptographic hashing utilizing `argon2-cffi` to ensure local passwords are never stored in plaintext.
+- Integrated hardware-grade cryptographic hashing utilizing the `crypto-functions` library (which wraps `argon2-cffi` internally) to ensure local passwords are never stored in plaintext.
 - Added encrypted keystroke masking globally using `pwinput` during login pipelines.
 
 ### Terminal UI Refinements
@@ -160,3 +160,48 @@ This release introduces major architectural changes and finalizes the architectu
 - Fully integrated automated testing via the `pytest` engine.
 - Wrote extensive unit tests testing config validation, query string semantic parsing, CSV normalization logic, and regex table abstractions.
 - Established `tests/` directory root and appended testing dependencies to `pyproject.toml`.
+
+---
+
+## v4.1.0 — Stable Release
+
+This release stabilizes v4.0.0 and delivers two new query-level inline flags, a richer export system, and a codebase-wide UX consistency refactor.
+
+### Query-Level Row Limiting (`--row-limit`)
+- Added a new `--row-limit <N>` inline flag that overrides the persistent `ui.max_rows` config for a single query execution.
+- Validates that `N` is a positive integer; provides clear error messages on misuse.
+- Fully composes with `--expand` and `--export`.
+
+### Export Query Embedding (`--include-query`)
+- Added a new `--include-query` inline flag that embeds the user's original SQL query in the export file.
+  - **CSV**: SQL query is prepended as a comment row (`# <query>`).
+  - **JSON**: Output is wrapped in a `{ "query": "<SQL>", "rows": [...] }` object.
+- By default, exports do **not** include the query — users opt in with `--include-query`.
+- Both CSV and JSON exporters updated to accept and honor the `include_query` parameter.
+
+### Centralized UX Consistency
+- Migrated **all** hardcoded `Print("pydbms error> ...")` and `Print("pydbms warning> ...")` calls to the centralized `pydbms_error()` / `pydbms_warning()` helpers from `engine_base.py`.
+- Files migrated: `core.py`, `meta_handler.py`, `db_manager.py`, `profile_auth.py`.
+- Fixed a colour bug in `profile_auth.py` where `"pydbms warning> Bye!"` was printed in RED instead of YELLOW.
+- Every error/warning message now follows a uniform `<source> error> <message>` format with consistent colour, typing effect, and newline behaviour.
+
+### `.help` Documentation
+- Added `--row-limit <N>` and `--include-query` to the Helper Flags table.
+- Updated `.version` build info to reflect Stable release status.
+
+### OOP & Architecture
+- **New `db/db_errors.py` module**: Introduced `DBErrorHandler` parent class and `MySQLErrors` subclass for DB-engine-specific error/warning output. Uses classmethods — no instantiation required.
+- All `Print("mysql error> ...")` calls in `mysql.py`, `core.py`, and `meta_handler.py` migrated to `MySQLErrors.error()` for consistent, engine-aware error formatting.
+- `ExportManager.export()` now accepts `include_query` as a keyword argument passed through to format-specific exporters.
+- `export_base.py` refactored to an abstract base class (ABC) with enforced `export()` method signature.
+- `db_manager.py` now uses `pydbms_error()` from the centralized engine module instead of direct `Print()` calls.
+- Lightweight OOP generalization to prepare for multi-engine support in v5.x (full `EngineBase` integration deferred).
+
+### Bug Fixes
+- Fixed `runtime.py` `current_datetime()` crash: was calling `datetime.datetime.now()` but `datetime` was imported as the class (`from datetime import datetime`), not the module.
+- Removed dead `config = load_config()` line in `runtime.py` that was immediately overwritten by `load_config_safe()`.
+
+### Developer Infrastructure
+- Extended `test_query_parse.py` with tests for `--row-limit` and `--include-query` flag parsing.
+- Extended `test_export_manager.py` with tests for `include_query` behavior in CSV and JSON exports.
+- Added comprehensive type hints and docstrings across all modified files.

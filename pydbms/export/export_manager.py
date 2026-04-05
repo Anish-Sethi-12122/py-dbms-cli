@@ -4,6 +4,7 @@ from .export_csv import CSVExporter
 from .export_json import JSONExporter
 import os
 from datetime import datetime
+from typing import Optional
 from ..main.runtime import config
 from ..main.pydbms_path import pydbms_path
 
@@ -31,7 +32,7 @@ class ExportManager:
         return os.path.join(ExportManager.default_export_dir(), filename)
 
     @staticmethod
-    def resolve_export_path(path: str | None, fmt: str) -> str:
+    def resolve_export_path(path: Optional[str], fmt: str) -> str:
         fmt = fmt.lower().lstrip(".")
         ext = f".{fmt}"
 
@@ -85,7 +86,29 @@ class ExportManager:
         return abs_path
 
     @staticmethod
-    def export(fmt: str, result, path: str | None = None) -> str:
+    def export(
+        fmt: str,
+        result,
+        path: Optional[str] = None,
+        *,
+        include_query: bool = False,
+    ) -> str:
+        """Export a QueryResult to a file in the specified format.
+
+        Args:
+            fmt: Export format key (e.g. 'csv', 'json').
+            result: A QueryResult dataclass with .query, .columns, .rows.
+            path: Optional user-specified output path. None = use default.
+            include_query: If True, embed the original SQL query in the export.
+                           Controlled by the --include-query flag (default: off).
+
+        Returns:
+            Absolute path to the written export file.
+
+        Raises:
+            ValueError: If the format is unsupported.
+            PermissionError: If the export directory is not writable.
+        """
         fmt = fmt.lower()
         supported = "{" + ", ".join(f'"{i}"' for i in sorted(ExportManager.EXPORTERS)) + "}"
 
@@ -108,6 +131,6 @@ class ExportManager:
                 )
 
         exporter = ExportManager.EXPORTERS[fmt]()
-        exporter.export(result, export_path)
+        exporter.export(result, export_path, include_query=include_query)
 
         return export_path

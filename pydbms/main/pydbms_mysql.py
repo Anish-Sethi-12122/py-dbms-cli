@@ -1,12 +1,14 @@
 # pydbms/pydbms/main/pydbms_mysql.py
+# MySQL-specific query execution, result rendering, and cursor utilities.
 
 from .dependencies import Panel, Table, box
 from dataclasses import dataclass
-from typing import List, Any
+from typing import List, Any, Optional
 import time
 import re
-from .runtime import Print, console, config
+from .runtime import Print, PrintNewline, console, config
 from .config import expand_query_session_config_mapping as Overflow
+from ..db.db_errors import MySQLErrors  # Centralized MySQL error/warning output
 
 
 @dataclass
@@ -33,7 +35,7 @@ def get_query_mysql() -> str:
             if semicolon_in_query(accumulated):
                 break
 
-        console.print()
+        PrintNewline()
         return accumulated
 
     except KeyboardInterrupt:
@@ -58,8 +60,8 @@ def print_warnings(cur: object) -> bool:
     warnings = cur.fetchwarnings()
     if warnings:
         for level, warning_code, warning_msg in warnings:
-            Print(f"mysql warning> Warning [{warning_code}]: {warning_msg}\n", "YELLOW", "bold")
-        console.print()
+            MySQLErrors.warning(f"Warning [{warning_code}]: {warning_msg}")
+        PrintNewline()
         return True
     return False
 
@@ -124,8 +126,28 @@ def get_query_title(query: str) -> str:
     return "Query Result"
 
 
-def render_cursor_result(query: str, cur: object, *, start: float, end: float, expand: bool = False) -> QueryResult:
-    max_rows = config["ui"]["max_rows"]
+def render_cursor_result(
+    query: str,
+    cur: object,
+    *,
+    start: float,
+    end: float,
+    expand: bool = False,
+    row_limit: Optional[int] = None,
+) -> QueryResult:
+    """Render a cursor result set as a rich Panel table.
+
+    Args:
+        query: The original SQL query string (used for title extraction).
+        cur: Active database cursor with a pending result set.
+        start: Perf counter timestamp when execution began.
+        end: Perf counter timestamp when execution finished.
+        expand: If True, columns are rendered without text wrapping.
+        row_limit: If provided, overrides the persistent ui.max_rows config
+                   for this single query. None = use config default.
+    """
+    # --row-limit flag takes precedence over config default
+    max_rows: Optional[int] = row_limit if row_limit is not None else config["ui"]["max_rows"]
 
     if max_rows is None:
         rows = cur.fetchall()
@@ -136,7 +158,7 @@ def render_cursor_result(query: str, cur: object, *, start: float, end: float, e
     num_rows = len(rows)
     columns = [desc[0] for desc in cur.description] if cur.description else []
 
-    console.print()
+    PrintNewline()
     result_table = Table(show_header=True, box=box.SIMPLE_HEAVY, padding=(0, 1))
 
     for col in columns:
@@ -161,7 +183,7 @@ def render_cursor_result(query: str, cur: object, *, start: float, end: float, e
     )
 
     has_warning = print_warnings(cur)
-    console.print()
+    PrintNewline()
 
     msg = (
         f"Query completed with warnings in {end-start:.3f} sec. Returned {num_rows} rows"
@@ -169,8 +191,8 @@ def render_cursor_result(query: str, cur: object, *, start: float, end: float, e
         else f"Query executed in {end-start:.3f} sec. Returned {num_rows} rows"
     )
 
-    Print(msg, "YELLOW" if has_warning else "GREEN")
-    console.print()
+    Print(msg + "\n", "YELLOW" if has_warning else "GREEN")
+    PrintNewline()
 
     return QueryResult(query=query, columns=columns, rows=rows)
 
@@ -183,28 +205,51 @@ def drain_remaining_rows(cur: object, chunk_size: int = 2048) -> None:
     except Exception:
         pass
 
-def execute_select(query: str, cur: object, *, expand: bool = False) -> QueryResult | None:
+def execute_select(
+    query: str,
+    cur: object,
+    *,
+    expand: bool = False,
+    row_limit: Optional[int] = None,
+) -> Optional[QueryResult]:
+    """Execute a SELECT-type query and render the result table.
+
+    Args:
+        row_limit: Override for ui.max_rows this query only. None = use config.
+    """
     start = time.perf_counter()
     with console.status("[bold cyan]Executing query...[/]", spinner="dots"):
         cur.execute(query)
     end = time.perf_counter()
 
     if not query_returns_rows(cur):
-        Print("Query executed but returned no resultset.", "YELLOW")
-        console.print()
+        Print("Query executed but returned no resultset.\n", "YELLOW")
+        PrintNewline()
         return None
 
-    return render_cursor_result(query, cur, start=start, end=end, expand=expand)
+    return render_cursor_result(query, cur, start=start, end=end, expand=expand, row_limit=row_limit)
 
 
-def execute_change(query: str, con: object, cur: object, *, expand: bool = False) -> QueryResult | None:
+def execute_change(
+    query: str,
+    con: object,
+    cur: object,
+    *,
+    expand: bool = False,
+    row_limit: Optional[int] = None,
+) -> Optional[QueryResult]:
+    """Execute a DML (INSERT/UPDATE/DELETE) or DDL query, commit, and render results.
+
+    Args:
+        row_limit: Override for ui.max_rows this query only. None = use config.
+    """
     start = time.perf_counter()
     with console.status("[bold cyan]Executing query...[/]", spinner="dots"):
         cur.execute(query)
     end = time.perf_counter()
 
     if query_returns_rows(cur):
-        return render_cursor_result(query, cur, start=start, end=end, expand=expand)
+        return render_cursor_result(query, cur, start=start, end=end, expand=expand, row_limit=row_limit)
 
     try:
         con.commit()
@@ -222,19 +267,31 @@ def execute_change(query: str, con: object, cur: object, *, expand: bool = False
     else:
         msg = f"Query OK ({end-start:.3f} sec)"
 
-    Print(msg, "YELLOW" if has_warning else "GREEN")
-    console.print()
+    Print(msg + "\n", "YELLOW" if has_warning else "GREEN")
+    PrintNewline()
     return None
 
 
-def execute_query(query: str, con: object, cur: object, *, expand: bool = False) -> QueryResult | None:
+def execute_query(
+    query: str,
+    con: object,
+    cur: object,
+    *,
+    expand: bool = False,
+    row_limit: Optional[int] = None,
+) -> Optional[QueryResult]:
+    """Execute a generic query, commit if needed, and render any result set.
+
+    Args:
+        row_limit: Override for ui.max_rows this query only. None = use config.
+    """
     start = time.perf_counter()
     with console.status("[bold cyan]Executing query...[/]", spinner="dots"):
         cur.execute(query)
     end = time.perf_counter()
 
     if query_returns_rows(cur):
-        return render_cursor_result(query, cur, start=start, end=end, expand=expand)
+        return render_cursor_result(query, cur, start=start, end=end, expand=expand, row_limit=row_limit)
 
     try:
         con.commit()
@@ -249,6 +306,6 @@ def execute_query(query: str, con: object, cur: object, *, expand: bool = False)
         else f"Query executed in {end-start:.3f} sec."
     )
 
-    Print(msg, "YELLOW" if has_warning else "GREEN")
-    console.print()
+    Print(msg + "\n", "YELLOW" if has_warning else "GREEN")
+    PrintNewline()
     return None

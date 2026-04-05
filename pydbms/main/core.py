@@ -2,18 +2,20 @@
 PY DBMS — DB client CLI
 Copyright (C) 2025  Anish Sethi
 Licensed under - BSD-3-Clause License
-Version - 4.0.0
-Release - Experimental
+Version - 4.1.0
+Release - Stable
 '''
 
 # pydbms/pydbms/main/core.py
 
-from .runtime import Print, console, config
+from .runtime import Print, PrintNewline, console, config
 from .dependencies import pyfiglet, Text, Table, Align, Rule, Panel, mysql, Group
 from .pydbms_mysql import execute_query, execute_change, execute_select, get_query_mysql
 from ..export.export_manager import ExportManager
 from ..db.db_manager import connect_db
 from ..db.db_exceptions import DatabaseError
+from ..engine.engine_base import pydbms_error  # Centralized error output
+from ..db.db_errors import MySQLErrors  # DB-engine-specific error output
 from .config import validate_config_types
 from .query_parse_and_classify import parse_query_and_flags, classify_rest, classify_query
 from .meta_handler import meta
@@ -31,10 +33,10 @@ def print_banner() -> None:
     banner_table.add_column("4", justify="center", ratio=1)
 
     banner_table.add_row(
-        "[bold cyan]v4.0.0[/]\n[bold white]Version[/]",
+        "[bold cyan]v4.1.0[/]\n[bold white]Version[/]",
         "[bold yellow]MySQL[/]\n[bold white]Currently Supported[/]",
         "[bold green]Online since 2025[/]\n[bold white]Status[/]",
-        "[bold purple]Experimental[/]\n[bold white]Release[/]"        
+        "[bold green]Stable[/]\n[bold white]Release[/]"        
     )
 
     author = Text("Anish Sethi  •  Delhi Technological University  •  Class of 2029", style="bright_white")
@@ -64,8 +66,7 @@ def print_banner() -> None:
         )
     )
 
-    console.print()
-    console.print()
+    PrintNewline(2)
 
 
 def main():
@@ -78,11 +79,9 @@ def main():
         
     ensure_local_profile_login()
 
-    Print("\nWelcome to PY DBMS, a UI/UX focused CLI tool for your Database needs.\nNOTE that PY DBMS is a Database Client that provides an interface to access databases, and not a database manager itself.\n\n","MAGENTA",slow_type=False)
+    Print("\nWelcome to PY DBMS, a UI/UX focused CLI tool for your Database needs.\nNOTE that PY DBMS is a Database Client that provides an interface to access databases, and not a database manager itself.\n","MAGENTA",slow_type=False)
 
-    console.print()
-    console.print()
-    console.print()
+    PrintNewline(3)
 
     con, cur = connect_db.driver("mysql", config)
 
@@ -90,12 +89,11 @@ def main():
         try:
             con, cur = connect_db.driver("mysql", config)
         except Exception as e:
-            Print(f"Error while trying to connect to DB - MySQL.\n {e}", "RED")
-            console.print()
+            pydbms_error(f"Error while trying to connect to DB - MySQL.\n{e}")
 
     Print("\n\nIf you are unsure where to start, here are some helper commands.\n\n", "YELLOW")
     meta(".help", cur)
-    console.print()
+    PrintNewline()
 
     while True:
         raw_query = get_query_mysql()
@@ -103,7 +101,7 @@ def main():
         query, rest = parse_query_and_flags(raw_query)
         query_type = classify_query(query)
 
-        console.print()
+        PrintNewline()
 
         if query_type == "meta":
             meta(query.strip(), cur, con)
@@ -112,13 +110,19 @@ def main():
         try:
             rest_flags = classify_rest(rest)
 
+            # Extract inline flags for this query
+            expand: bool = rest_flags["expand_flag"]["expand"]
+            row_limit: int | None = rest_flags["row_limit_flag"]["row_limit"]
+            include_query: bool = rest_flags["include_query_flag"]["include_query"]
+
             result = None
 
             if query_type == "select":
                 result = execute_select(
                     query,
                     cur,
-                    expand=rest_flags["expand_flag"]["expand"]
+                    expand=expand,
+                    row_limit=row_limit,
                 )
 
             elif query_type in ("change", "ddl"):
@@ -126,7 +130,8 @@ def main():
                     query,
                     con,
                     cur,
-                    expand=rest_flags["expand_flag"]["expand"]
+                    expand=expand,
+                    row_limit=row_limit,
                 )
 
             else:
@@ -134,46 +139,49 @@ def main():
                     query,
                     con,
                     cur,
-                    expand=rest_flags["expand_flag"]["expand"]
+                    expand=expand,
+                    row_limit=row_limit,
                 )
 
+            # ── Export handling ────────────────────────────────────
             if rest_flags["export_flag"]["export"]:
                 if not result or not result.rows:
-                    Print("pydbms error> Couldn't export query.\nReason: No rows returned. Nothing to export\n", "RED")
-                    console.print()
+                    pydbms_error("Couldn't export query.\nReason: No rows returned. Nothing to export")
+                    PrintNewline()
                     continue
 
                 try:
                     export_path = ExportManager.export(
                         fmt=(rest_flags["export_flag"]["export_format"]),
                         result=result,
-                        path=(rest_flags["export_flag"]["export_path"] or config.get("export", {}).get("path") or None)
+                        path=(rest_flags["export_flag"]["export_path"] or config.get("export", {}).get("path") or None),
+                        include_query=include_query,
                     )
 
                     Print("Export successful. Exported query result to → ", "GREEN")
                     Print(f"{export_path}\n", slow_type=False)
-                    console.print()
+                    PrintNewline()
 
                 except Exception as export_error:
-                    Print(f"pydbms error> Couldn't export query.\nReason: {export_error}\n", "RED", slow_type=False)
+                    pydbms_error(f"Couldn't export query.\nReason: {export_error}", slow_type=False)
 
         except SyntaxError as se:
-            Print(f"pydbms error> Invalid flag usage.\nReason: {se}\n", "RED", slow_type=False)
-            console.print()
+            pydbms_error(f"Invalid flag usage.\nReason: {se}", slow_type=False)
+            PrintNewline()
 
         except mysql.Error as err:
-            Print(f"mysql error> {err.msg}\n", "RED")
-            console.print()
+            MySQLErrors.error(err.msg)
+            PrintNewline()
             
         except DatabaseError as err:
-            Print(f"mysql error> {str(err)}\n", "RED")
-            console.print()
+            MySQLErrors.error(str(err))
+            PrintNewline()
             
         except Exception as e:
-            Print(f"pydbms error> Unexpected error: {e}\n", "RED")
-            console.print()
+            pydbms_error(f"Unexpected error: {e}")
+            PrintNewline()
 
-        console.print()
+        PrintNewline()
 
 
 if __name__ == "__main__":

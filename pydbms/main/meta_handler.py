@@ -4,9 +4,11 @@ from .dependencies import Table, Panel
 import sys
 import copy
 from ..db.db_exceptions import DatabaseError
-from .runtime import Print, config, console, ver
+from .runtime import Print, PrintNewline, config, console, ver
 from .pydbms_mysql import execute_select
 from ..export.export_manager import ExportManager
+from ..engine.engine_base import pydbms_error, pydbms_warning  # Centralized UX helpers
+from ..db.db_errors import MySQLErrors  # DB-engine-specific error output
 from .config import parse_query_config, save_config, get_default_value_config, DEFAULT_SESSION_CONFIG, SESSION_CONFIG, DEFAULT_CONFIG
 
 def confirm_reset(prompt: str) -> bool:
@@ -53,16 +55,18 @@ def meta(cmd: str, cur: object, con=None) -> None:
         help_table.add_row(".session-config reset <key?>", "Reset session config to a default value")
         help_table.add_row(".exit", "Exit pydbms")
         console.print(help_table)
-        console.print()
+        PrintNewline()
         
-        console.print()
+        PrintNewline()
         help_table = Table(title="Helper Flags", show_header=False, border_style="bold magenta")
         help_table.add_column("Flag Usage", overflow="ellipsis")
         help_table.add_column("Description", style="white", no_wrap=True)
         help_table.add_row("--expand", "Show full cell value without wrap (overrides session-config)")
         help_table.add_row("--export <format> <path?>", "Export a query result. Supports -> csv, json")
+        help_table.add_row("--row-limit <N>", "Limit rows returned for this query (overrides ui.max_rows)")
+        help_table.add_row("--include-query", "Embed original SQL query in exported file (default: off)")
         console.print(help_table)
-        console.print()
+        PrintNewline()
         return
 
     # .databases
@@ -71,8 +75,8 @@ def meta(cmd: str, cur: object, con=None) -> None:
             execute_select("SHOW DATABASES;",cur)
             
         except DatabaseError as err:
-            Print("mysql error> " + str(err), "RED", "bold")
-            console.print()
+            MySQLErrors.error(str(err))
+            PrintNewline()
             
         return
             
@@ -82,8 +86,8 @@ def meta(cmd: str, cur: object, con=None) -> None:
             execute_select("SHOW TABLES;",cur)
             
         except DatabaseError as err:
-            Print("mysql error> " + str(err), "RED", "bold")
-            console.print()
+            MySQLErrors.error(str(err))
+            PrintNewline()
             
         return
 
@@ -92,7 +96,8 @@ def meta(cmd: str, cur: object, con=None) -> None:
         parts = cmd.split()
         
         if len(parts) != 2:
-            Print("pydbms warning> Usage: .schema <table_name>\n\n", "YELLOW")
+            pydbms_warning("Usage: .schema <table_name>")
+            PrintNewline()
             return
         table = parts[1]
         
@@ -100,14 +105,14 @@ def meta(cmd: str, cur: object, con=None) -> None:
             cur.execute(f"SHOW CREATE TABLE {table};")
             row = cur.fetchone()
             if row:
-                Print(row[1], slow_type=False)
-                console.print()
+                Print(row[1] + "\n", slow_type=False)
+                PrintNewline()
             else:
-                Print(f"mysql error> No such table: {table}\n", "RED")
+                MySQLErrors.error(f"No such table: {table}")
                 
         except DatabaseError as err:
-            Print("mysql error> " + str(err), "RED", "bold")
-            console.print()
+            MySQLErrors.error(str(err))
+            PrintNewline()
             
         return
 
@@ -115,19 +120,19 @@ def meta(cmd: str, cur: object, con=None) -> None:
     if cmd == ".clear":
         import os
         os.system("cls" if os.name == "nt" else "clear")
-        console.print()
+        PrintNewline()
         return
     
     # .version
     if cmd == ".version":
-        console.print()
+        PrintNewline()
         info = Table(show_header=False, box=None)
         info.add_column("", style="white", overflow="ellipsis")
         info.add_column("", style="dim white")
 
         info.add_row("Name", "[link=https://github.com/Anish-Sethi-12122/py-dbms-cli]pydbms Terminal[/link]")
         info.add_row("Version", f"{ver}")
-        info.add_row("Build", "Experimental Release")
+        info.add_row("Build", "Stable Release")
         info.add_row("Python", f"[link=https://www.python.org/]{sys.version.split()[0]}[/link]")
         mysql_info = con.get_server_info() if con else "Not Connected"
         info.add_row("MySQL", f"[link=https://www.mysql.com/]{mysql_info}[/link]")
@@ -143,10 +148,10 @@ def meta(cmd: str, cur: object, con=None) -> None:
                 padding=(1, 2),
             )
         )
-        console.print()
-        console.print("Run `pip install -U py-dbms-cli` in terminal to check for updates.\n\n",style="dim white")
-        console.print("NOTE: Run `pip install --upgrade py-dbms-cli` in terminal directly to install the latest version.\n",style="dim white")
-        console.print()
+        PrintNewline()
+        Print("Run `pip install -U py-dbms-cli` in terminal to check for updates.\n\n", "WHITE")
+        Print("NOTE: Run `pip install --upgrade py-dbms-cli` in terminal directly to install the latest version.\n", "WHITE")
+        PrintNewline()
         return
         
     # .config
@@ -183,7 +188,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
                 padding=(1, 2),
             )
         )
-        console.print()
+        PrintNewline()
         return
 
     # .config set
@@ -191,17 +196,17 @@ def meta(cmd: str, cur: object, con=None) -> None:
         parts = cmd.split(maxsplit=3)
 
         if len(parts) != 4:
-            Print("pydbms error> Invalid input format.\n", "RED")
-            Print("pydbms warning> Usage: .config set <section>.<key> <value>\n", "YELLOW")
-            console.print()
+            pydbms_error("Invalid input format.")
+            pydbms_warning("Usage: .config set <section>.<key> <value>")
+            PrintNewline()
             return
 
         _, _, path, raw_value = parts
 
         parsed = parse_query_config(path)
         if not parsed:
-            Print("pydbms error> Invalid input format. Use <section>.<key>\n", "RED")
-            console.print()
+            pydbms_error("Invalid input format. Use <section>.<key>")
+            PrintNewline()
             return
 
         section, key = parsed
@@ -209,8 +214,8 @@ def meta(cmd: str, cur: object, con=None) -> None:
         key = key.lower()
 
         if section not in config or key not in config[section]:
-            Print(f"pydbms error> Unknown config key: {path}\n", "RED")
-            console.print()
+            pydbms_error(f"Unknown config key: {path}")
+            PrintNewline()
             return
 
         try:
@@ -249,38 +254,38 @@ def meta(cmd: str, cur: object, con=None) -> None:
                 value = raw_value
 
         except ValueError as err:
-            Print(f"pydbms error> Invalid value for {path}.\nReason: {err}\n", "RED")
-            console.print()
+            pydbms_error(f"Invalid value for {path}.\nReason: {err}")
+            PrintNewline()
             return
         except Exception:
-            Print(f"pydbms error> Invalid value for {path}.\n", "RED")
-            console.print()
+            pydbms_error(f"Invalid value for {path}.")
+            PrintNewline()
             return
         
         if section == "export" and key == "path":
             try:
                 value = ExportManager.normalize_export_dir(str(value))
             except Exception as e:
-                Print(f"pydbms error> Invalid value for export.path.\nReason: {e}\n", "RED")
-                console.print()
+                pydbms_error(f"Invalid value for export.path.\nReason: {e}")
+                PrintNewline()
                 return
 
         config[section][key] = value
         save_config(config)
 
         Print(f"Updated {path} → {value}", "GREEN")
-        console.print()
+        PrintNewline()
         return
     
     #.config reset
     if cmd == ".config reset":
-        Print("pydbms warning> This command will reset all fields in config to default values.\n", "YELLOW")
+        pydbms_warning("This command will reset all fields in config to default values.")
         
         confirm = confirm_reset("Confirm reset (yes/no): ")
 
         if not confirm:
             Print("Config reset aborted.\n", "GREEN")
-            console.print()
+            PrintNewline()
             return
 
         config.clear()
@@ -288,7 +293,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
         save_config(config)
 
         Print("All config values reset to default.\n", "GREEN")
-        console.print()
+        PrintNewline()
         return
     
     # .config reset <key?>
@@ -296,17 +301,17 @@ def meta(cmd: str, cur: object, con=None) -> None:
         parts = cmd.split(maxsplit=2)
 
         if len(parts) != 3:
-            Print("pydbms error> Invalid config key format.\n", "RED")
-            Print("pydbms warning> Usage: .config reset <section>.<key>\n", "YELLOW")
-            console.print()
+            pydbms_error("Invalid config key format.")
+            pydbms_warning("Usage: .config reset <section>.<key>")
+            PrintNewline()
             return
 
         path = parts[2]
         parsed = parse_query_config(path)
 
         if not parsed:
-            Print("pydbms error> Invalid config key format. Use <section>.<key>\n", "RED")
-            console.print()
+            pydbms_error("Invalid config key format. Use <section>.<key>")
+            PrintNewline()
             return
 
         section, key = parsed
@@ -315,15 +320,15 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         default = get_default_value_config(section, key)
         if default is None:
-            Print(f"pydbms error> No default value for {path}.\n", "RED")
-            console.print()
+            pydbms_error(f"No default value for {path}.")
+            PrintNewline()
             return
 
         config[section][key] = default
         save_config(config)
 
         Print(f"Reset {path} → {default}\n", "GREEN")
-        console.print()
+        PrintNewline()
         return
     
     # .session-config
@@ -342,7 +347,7 @@ def meta(cmd: str, cur: object, con=None) -> None:
             )
         )
 
-        console.print()
+        PrintNewline()
         return
     
     # .session-config set
@@ -350,17 +355,17 @@ def meta(cmd: str, cur: object, con=None) -> None:
         parts = cmd.split(maxsplit=3)
 
         if len(parts) != 4:
-            Print("pydbms error> Invalid input format.\n", "RED")
-            Print("pydbms warning> Usage: .session-config set <key> <value>\n", "YELLOW")
-            console.print()
+            pydbms_error("Invalid input format.")
+            pydbms_warning("Usage: .session-config set <key> <value>")
+            PrintNewline()
             return
 
         _, _, key, raw_value = parts
         key = key.lower()
 
         if key not in SESSION_CONFIG:
-            Print(f"pydbms error> Unknown session config key: {key}\n", "RED")
-            console.print()
+            pydbms_error(f"Unknown session config key: {key}")
+            PrintNewline()
             return
 
         try:
@@ -379,18 +384,18 @@ def meta(cmd: str, cur: object, con=None) -> None:
                 value = raw_value
 
         except ValueError as err:
-            Print(f"pydbms error> Invalid value for {key}.\nReason: {err}\n", "RED")
-            console.print()
+            pydbms_error(f"Invalid value for {key}.\nReason: {err}")
+            PrintNewline()
             return
         except Exception:
-            Print(f"pydbms error> Invalid value for {key}.\n", "RED")
-            console.print()
+            pydbms_error(f"Invalid value for {key}.")
+            PrintNewline()
             return
 
         SESSION_CONFIG[key] = value
 
         Print(f"Updated session-config {key} → {value}\n", "GREEN")
-        console.print()
+        PrintNewline()
         return
     
     #.session-config reset
@@ -402,14 +407,14 @@ def meta(cmd: str, cur: object, con=None) -> None:
 
         if not confirm:
             Print("Session-config reset aborted.\n", "GREEN")
-            console.print()
+            PrintNewline()
             return
 
         SESSION_CONFIG.clear()
         SESSION_CONFIG.update(DEFAULT_SESSION_CONFIG)
 
         Print("All session-config values reset to default.\n", "GREEN")
-        console.print()
+        PrintNewline()
         return
     
     # .session-config reset <key?>
@@ -417,28 +422,28 @@ def meta(cmd: str, cur: object, con=None) -> None:
         parts = cmd.split(maxsplit=2)
 
         if len(parts) != 3:
-            Print("pydbms error> Invalid input format.\n", "RED")
-            Print("pydbms warning> Usage: .session-config reset <key>\n", "YELLOW")
-            console.print()
+            pydbms_error("Invalid input format.")
+            pydbms_warning("Usage: .session-config reset <key>")
+            PrintNewline()
             return
 
         key = parts[2].lower()
 
         if key not in DEFAULT_SESSION_CONFIG:
-            Print(f"pydbms error> Unknown session config key: {key}\n", "RED")
-            console.print()
+            pydbms_error(f"Unknown session config key: {key}")
+            PrintNewline()
             return
 
         SESSION_CONFIG[key] = DEFAULT_SESSION_CONFIG[key]
 
         Print(f"Reset session-config {key} → {DEFAULT_SESSION_CONFIG[key]}\n", "GREEN")
-        console.print()
+        PrintNewline()
         return
 
     # .exit   
     if cmd == ".exit" or cmd == ".exit;":
         Print("\n\nSession Terminated.\n", "RED", "bold")
-        console.print()
+        PrintNewline()
         
         if con:
                 try:
@@ -449,5 +454,5 @@ def meta(cmd: str, cur: object, con=None) -> None:
                 
         sys.exit()
 
-    Print(f"pydbms error> Unknown command: {cmd}\nRefer to `.help` for list of commands\n", "YELLOW")
-    console.print()
+    pydbms_error(f"Unknown command: {cmd}\nRefer to `.help` for list of commands")
+    PrintNewline()

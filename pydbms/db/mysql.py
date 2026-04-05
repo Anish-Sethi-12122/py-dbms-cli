@@ -1,11 +1,13 @@
 # pydbms/db/mysql.py
+# MySQL-specific database connector implementation.
 
 from ..main.dependencies import mysql
 import pwinput
 from crypto_functions import hash_argon2
 from .db_base import DBConnector
 from .db_exceptions import DatabaseError, ConnectionError, QueryError
-from ..main.runtime import Print
+from .db_errors import MySQLErrors  # Centralized MySQL error output
+from ..main.runtime import Print, PrintNewline
 from ..main.profile import pydbmsProfile
 from ..main import profile
 
@@ -38,7 +40,7 @@ class MySQLConnector(DBConnector):
             )
             self.cursor = self.connection.cursor()
 
-            Print("✅ Login successful.", "GREEN")
+            Print("\n✅ Login successful.\n", "GREEN")
             
             profile.PROFILE = pydbmsProfile.MySQL(
                 host=self.host,
@@ -49,4 +51,6 @@ class MySQLConnector(DBConnector):
             return self.connection, self.cursor
 
         except mysql.Error as e:
+            MySQLErrors.error(f"Connection failed: {e}")
             raise ConnectionError(f"Connection failed: {e}") from e
+

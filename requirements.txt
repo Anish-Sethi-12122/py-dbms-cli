@@ -1,6 +1,5 @@
 mysql-connector-python
 rich
 pyfiglet
-sqlparse
 pwinput
 crypto-functions

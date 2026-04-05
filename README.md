@@ -1,182 +1,118 @@
 <div align="center">
+  <h1>🐍 PY DBMS</h1>
+  <p><strong>A Modern, Secure, and Blazing Fast MySQL CLI Client for Python</strong></p>
 
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ffff,100:8a2be2&height=200&section=header&text=PY%20DBMS&fontSize=80&fontAlign=50&fontAlignY=35&desc=Modern,%20Aesthetic%20and%20Secure%20DBMS%20Client&descAlign=50&descAlignY=55&animation=fadeIn&fontFace=Fira+Code" width="100%"/>
-
-  [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-  [![MySQL](https://img.shields.io/badge/MySQL-Supported-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
-  [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
-  [![Status](https://img.shields.io/badge/Status-Experimental-success?style=for-the-badge)]()
-  [![Version](https://img.shields.io/badge/Version-4.0.0-cyan?style=for-the-badge)]()
-
-  <p align="center">
-    <strong>A modern, secure, terminal-first MySQL client built for developers.</strong>
-    <br />
-    <em>Structured tables, smart flags, and secure local profiles—without the CLI clutter.</em>
+  <p>
+    <a href="https://pypi.org/project/py-dbms-cli/"><img src="https://img.shields.io/pypi/v/py-dbms-cli?color=blue&style=for-the-badge" alt="PyPI version" /></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg?style=for-the-badge" alt="Python 3.10+" /></a>
+    <a href="https://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/badge/license-BSD--3--Clause-green.svg?style=for-the-badge" alt="License" /></a>
   </p>
-
-  <a href="#-introduction">Introduction</a> •
-  <a href="#-key-features">Features</a> •
-  <a href="#-installation">Installation</a> •
-  <a href="#-usage-guide">Usage</a> •
-  <a href="#-meta-flags--commands">Flags & Commands</a> •
-  <a href="#-roadmap">Roadmap</a>
 </div>
 
 ---
 
-## ⚡ Introduction
+**PY DBMS** is a modern, developer-focused command-line client constructed entirely in Python. It's built for developers who live in the terminal but want a more **structured, responsive, and secure experience** than the default MySQL CLI provides.
 
-**PY DBMS** is a UI/UX-focused **MySQL CLI client** built in Python. It replaces the traditional, low-signal database output with a high-fidelity terminal experience.
-
-v4.0.0 overhauls the system completely to introduce **Secure Local Authentication**, **Live Query Spinners**, a hardened **Export Pipeline**, and intelligent multi-line prompt formatting (e.g. `    -> `).
-
-> **The Philosophy:** Stop squinting at wrapped CLI output. Work in a visually structured, highly reliable environment that respects your time and your eyeballs.
+With built-in secure local user profiles, deep UX polish (think execution spinners and MySQL-like multi-line formatting), and a first-class data export system, PY DBMS stands on its own as a premium database interaction layer.
 
 ---
 
-## ✨ Why `pydbms`?
+## ✨ Features
 
-* **🚫 No More Walls of Text:** Utilizes `rich` to render data in clean, color-coded grid tables that respect your terminal bounds.
-* **🔒 Authentication Guard:** Your database credentials shouldn't be unprotected. `pydbms` requires a local profile login verified by an `argon2` hashed password.
-* **📊 One-Flag Exports:** Append `--export json` or `--export csv` to any query. No weird `INTO OUTFILE` permission issues from the backend server.
-* **👀 Responsive UI:** See exactly what's happening. Executing a heavy `JOIN`? A cyan spinner keeps you updated. Broke a query? Explicit red `mysql error>` tags will let you know instantly.
+### 🛡️ Secure Local Profiles (`profile_auth.py`)
+- **Startup Gate:** You must log in via a local profile before PY DBMS spins up a MySQL connection. 
+- **Argon2 Hashed:** Your local password is never stored in plaintext (`profile.json` relies purely on Argon2 hashed payloads via the `crypto-functions` library).
+- **Masked Prompts:** `pwinput` safely hides your credentials as you type.
 
----
+### 🎨 Stunning Terminal UX
+- **Live Query Spinners:** Executing a massive `JOIN`? A sleek `cyan` spinner ensures you know the query is actively running in the background.
+- **MySQL-Style Query Loops:** Type complex multi-line queries with ease natively formatted with `    -> ` line breaks.
+- **Color-Coded Statuses:** All terminal errors log instantly with explicit visual warnings like `pydbms warning>` or `mysql error>`.
 
-## 🚀 Key Features
+### 📤 Native Query Exports
+- Export to `.csv` or `.json` instantly by appending `--export <format>` to any query.
+- Completely **crash-safe**: Unresolved paths or permission errors fall back to clear UI warnings without dropping your session.
+- Handles massive exports securely.
 
-### 🎨 Terminal UI / UX
-* **Live Query Spinners:** Long-running queries use an animated `Executing query...` spinner that clearly indicates network IO and properly vanishes before visualizing your result sets.
-* **Structured Data Grids:** Results print into beautiful bordered panels with explicit column widths.
-* **SQL Multi-Line Formatting:** Typing extensive queries prompts you with the MySQL-standard `    -> ` prefix across lines until terminated with `;`.
-
-### 🛡️ Security & Authentication (New in v4.0.0)
-* **Local Profiles Gate:** The CLI refuses to spin up a MySQL connection layer without validating against your local profile block.
-* **Hardware-Grade Cryptography:** Local passwords are hashed via the `argon2-cffi` protocol. `profile.json` will never host plaintext payloads.
-* **Masked Login Pipelines:** Password inputs globally obscure keystrokes using `pwinput`.
-
-### 📤 Pluggable Export Engine
-* **Non-Fatal Fallbacks:** Misspelled an export format? Missing disk write permissions? The export manager will catch the fault and warn you natively without blowing up your active session.
-* **JSON & CSV Formats:** Built-in modular exporters ensure massive result rows are serialized efficiently.
-* **Auto-Resolution Paths:** Output locations gracefully scale using `shlex` path parsing to support spaces (`export csv "C:\My Data\data.csv"`).
-
-### ⚙️ Stateful Configurations
-* **`config.json`:** Set global persistent states (like `export.path`) mapping directly to cross-session behaviors.
-* **`.session-config`:** Temporarily mutate CLI states (like global expansions) strictly bounded by termination closures.
+### 🛠️ Tiered Configuration
+- **Global Config (`config.json`):** Set persistent states mapped cleanly across sessions.
+- **Session Config (`.session-config`):** Hot-swap settings that reset the moment you exit.
+- **Query Overrides (`--expand`):** On-the-fly execution changes explicitly attached to a single inline SQL execution.
 
 ---
 
-## 📦 Installation
+## 🚀 Installation
 
 ### Prerequisites
-* **Python 3.10+**
->Preferred latest Python version. Download from [Python's official website↗](https://www.python.org)
-* A running **MySQL server**
->Download from [mysql's official website↗](https://www.mysql.com/)
+- Python **3.10+**
+- A running MySQL Server
 
-### Quick Install via pip
+### Install via pip
 ```bash
 pip install -U py-dbms-cli
 ```
->*(This automatically bootstraps all terminal dependencies identically into your virtual or global environment).*
-
-### If installing via pipx
-```bash
-pipx install -U py-dbms-cli
-```
 
 ---
 
-# 🎮 Usage Guide
+## 💻 Quick Start
 
-## 1. Launch the Shell
-Open your terminal and boot up the client:
+### 1. Launch the Environment
 ```bash
 pydbms
 ```
 
-## 2. Authentication Gate & Dashboard
-On initial startup, `pydbms` will ask you to bootstrap your first local root user. Following startups will route through a standard login wall.  
+### 2. Authentication
+On first launch, you'll be prompted to create a secure, hashed local profile. Next time, just log in!
 
-<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/pydbms%20banner.jpeg" alt="Dashboard Login">
+### 3. Database Connection
+You'll instantly be prompted to input your target MySQL Host, Username, and Password. PY DBMS ensures nothing is logged unencrypted to your disk.
 
-## 3. Connect to MySQL Node
-Post-authorization, your credentials for the target MySQL server are collected (with encrypted masking on your password).   `pydbms` will connect you to SQL server.
-
-## 4. You're In !!
-Once you are logged in to your SQL connection, everything operates within standard MySQL standard dialects. Queries process *exactly once* preventing accidental duplicate state mutation, returning cleanly visually bounded outputs.
-
-Example usage:
+### 4. Write SQL
+Write your standard SQL inside the shell:
 ```sql
 pydbms> SELECT * FROM users
-    -> WHERE access_tier = "admin"
-    -> ORDER BY created_at DESC;
+    -> WHERE id > 100
+    -> LIMIT 50;
 ```
-
-<img src="https://raw.githubusercontent.com/Anish-Sethi-12122/py-dbms-cli/main/example-usage-2-image" alt="Clean Result Rendering">
-
-### Beautiful Error Catching
-Mistakes happen. Instead of dumping a giant Python stack trace or messy string blocks on fail, exceptions are handled and printed uniformly for immediate bug patching.
-
-<img src="https://raw.githubusercontent.com/Anish-Sethi-12122/py-dbms-cli/main/example-usage-1-image" alt="Beautiful Error Handling" width="800">
 
 ---
 
-# 🕹 Meta Flags & Commands
+## 📖 Helper Meta Commands
 
-### ⚡ Meta Flags (Query Overrides)
-Flags are **appended explicitly to the end of standard SQL** queries, shifting display settings for a single action cycle without altering your base configurations. 
-
-> **Usage Example:** `SELECT * FROM inventory; --expand --export csv`
-
-| Flag | Description |
-|------|-----------|
-| `--expand` | Forces the output table to horizontally scroll over wrapping, preventing truncated columns at Terminal Edge boundaries. default=false|
-| `--export <format> <path?>` | Rents out the result stack instantly to a local file in either `json` or `csv`. |
-
-<br/>
-
-### 🛠️ Meta Commands (Dot Commands)
-Meta commands bypass the SQL parser outright to configure environments internally.
+PY DBMS includes an array of `.` prefixed meta-commands that vastly speed up the database inspection process.
 
 | Command | Description |
 |------|-----------|
-| `.help` | Show helper commands |
-| `.databases` | Show databases in current connection |
-| `.tables` | Show tables in current database |
-| `.schema <table>` | Show CREATE TABLE statement for table `<table>` |
+| `.help` | Show all helper commands |
+| `.databases` | List all databases |
+| `.tables` | List tables in the current database |
+| `.schema <table>` | Show the exact `CREATE TABLE` definition |
 | `.clear` | Clear the terminal screen |
-| `.version` | Show pydbms build information |
-| `.config` | Show config settings for pydbms |
-| `.config set <section>.<key> <value>` | Set config to a new value |
-| `.config reset <section?>.<key?>` | Reset config to a default value |
-| `.session-config` | Show session config settings for pydbms (Resets on every run) |
-| `.session-config set <key> <value>` | Set session config to a new value |
-| `.session-config reset <key?>` | Reset session config to a default value |
-| `.exit` | Exit pydbms |
+| `.version` | Show build and MySQL version information |
+| `.config` | Show persistent UI/Export configurations |
+| `.config set <section>.<key> <value>` | Update a config value globally |
+| `.config reset <section>.<key>` | Reset a config value |
+| `.session-config` | Show session-level settings |
+| `.session-config set <key> <value>` | Update a temporary session setting |
+| `.exit` | Safely terminate the CLI and MySQL connection |
 
 ---
 
-# ⚙️ Configuration Architecture
+## ⚙️ Query Flags
 
-PY DBMS uses a highly flexible, **3-tiered configuration system**:
+Attach these raw flags to the very end of any valid SQL query.
 
-### 1. Global / Persistent (`config.json`)
-Managed via `.config` set of commands. These configurations persist permanently across boots and are stored directly in your OS-appropriate `appdata`/`config` directory. 
+| Flag | Description |
+|------|-----------|
+| `--expand` | Render the result set expanded vertically to bypass hard window truncation overrides. |
+| `--export <format> [path]` | Extract your query locally to `csv` or `json`. |
+| `--row-limit <N>` | Limit rows returned for this query (overrides `ui.max_rows`). |
+| `--include-query` | Embed original SQL query in the exported file (default: off). |
 
-### 2. Session / Ephemeral (`.session-config`)
-Managed via `.session-config` and `.session-config set` commands. These overrides live **only in memory** for your current active terminal session and revert immediately when you exit via `.exit`.
-
-### 3. Query-Level Overrides (Meta Flags)
-Managed via appending raw `--flags` to the end of a SQL string. Overrides everything beneath it (Session and Global) for that **exact execution cycle only**.
-- **Use Case:** Normal queries are truncating strings, but you just need to `SELECT` a massive JSON blob *once*? Do `SELECT * FROM logs; --expand`. It expands the blob, and the very next query goes back to normal.
-
----
-
-# 🗺 Roadmap  
-
-* **Multi DBMS Support:** Built-in interactive command (`.use <db_name>`) for jumping database grids securely. *(Planned v5.x)*
-* **Hardware Connectors:** Bridge the core codebase abstraction layer to support commonly used databases like Postgre, Mongo, Oracle SQL, etc.
+**Example:**
+```sql
+SELECT * FROM access_logs WHERE status=404; --row-limit 100 --export json --include-query
+```
 
 ---
 
@@ -198,15 +134,14 @@ pytest tests/
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
-<pre><i> <a href="https://www.linkedin.com/in/anish-sethi-dtu-cse/">Anish Sethi</a>      |      B.Tech Computer Science & Engineering      |      Delhi Technological University (Class of 2029)</i></pre>
+**Anish Sethi**  
+B.Tech Computer Science & Engineering  
+Delhi Technological University (Class of 2029)  
+[LinkedIn](https://www.linkedin.com/in/anish-sethi-dtu-cse/) | [GitHub](https://github.com/Anish-Sethi-12122)
 
 ---
 
 ## 📄 License
-This project is licensed under the **BSD 3-Clause License**. See the [LICENSE](https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/LICENSE).
-
-<div align="center">
-  <b>Hey! to the user of this project. Liked using pydbms ? <br>Consider dropping a ⭐️ star to support a student-led open-source project and keep the updates rolling in!</b>
-</div>
+This project is officially licensed under the **BSD 3-Clause License**. See the `LICENSE` file for details or type `.version` in the terminal for further context.
