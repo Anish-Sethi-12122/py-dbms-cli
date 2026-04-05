@@ -5,7 +5,7 @@
   [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
   [![MySQL](https://img.shields.io/badge/MySQL-Supported-orange?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
   [![License](https://img.shields.io/badge/License-BSD_3_Clause-green?style=for-the-badge)](LICENSE)
-  [![Status](https://img.shields.io/badge/Status-Experimental-success?style=for-the-badge)]()
+  [![Status](https://img.shields.io/badge/Status-Stable-success?style=for-the-badge)]()
   [![Version](https://img.shields.io/badge/Version-4.1.0-cyan?style=for-the-badge)]()
 
   <p align="center">
