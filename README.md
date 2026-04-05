@@ -98,7 +98,7 @@ pydbms
 ## 2. Authentication Gate & Dashboard
 On initial startup, `pydbms` will ask you to bootstrap your first local root user. Following startups will route through a standard login wall.  
 
-<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/pydbms%20banner.jpeg" alt="Dashboard Login">
+<img src="https://github.com/Anish-Sethi-12122/py-dbms-cli/blob/main/pydbms%20banner.png" alt="Dashboard Login">
 
 ## 3. Connect to MySQL Node
 Post-authorization, your credentials for the target MySQL server are collected (with encrypted masking on your password).   `pydbms` will connect you to SQL server.
